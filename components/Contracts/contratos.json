@@ -1,0 +1,77 @@
+
+"contratos": [
+    {
+        "status": " Ativo ",
+        "razaosocial": "ALCINELSON MIRANDA JORDÃO",
+        "planointernet_valor": 159,
+        "endereco_instalacao": {
+            "logradouro": "RUA NHAMUNDA",
+            "numero": 1413,
+            "bairro": "PALMARES",
+            "cidade": "PARINTINS",
+            "uf": "AM",
+            "cep": "69153-050",
+            "complemento": null
+        },
+        "cpfcnpj": "952.314.472-34",
+        "vencimento": 10,
+        "planotv": "",
+        "endereco_cobranca": {
+            "logradouro": "RUA NHAMUNDA",
+            "numero": 1413,
+            "bairro": "PALMARES",
+            "cidade": "PARINTINS",
+            "uf": "AM",
+            "cep": "69153-050",
+            "complemento": null
+        },
+        "planotv_id": "",
+        "planointernet": "PLANO 800 MEGA",
+        "emails": [
+            "alcinelsonmiranda01@gmail.com"
+        ],
+        "planotelefonia_id": "",
+        "planomultimidia_id": "",
+        "planotelefonia": "",
+        "planomultimidia": "",
+        "contrato": 1521,
+        "planointernet_id": ""
+    },
+    {
+        "status": " Ativo ",
+        "razaosocial": "ALCINELSON MIRANDA JORDÃO",
+        "planointernet_valor": 159,
+        "endereco_instalacao": {
+            "logradouro": "RUA FORTALEZA",
+            "numero": 2354,
+            "bairro": "PALMARES",
+            "cidade": "PARINTINS",
+            "uf": "AM",
+            "cep": "69153-020",
+            "complemento": "PRÓXIMO O CENÁRIO DA AMAZÔNIA"
+        },
+        "cpfcnpj": "952.314.472-34",
+        "vencimento": 10,
+        "planotv": "",
+        "endereco_cobranca": {
+            "logradouro": "RUA FORTALEZA",
+            "numero": 2354,
+            "bairro": "PALMARES",
+            "cidade": "PARINTINS",
+            "uf": "AM",
+            "cep": "69153-020",
+            "complemento": "PRÓXIMO O CENÁRIO DA AMAZÔNIA"
+        },
+        "planotv_id": "",
+        "planointernet": "PLANO 800 MEGA",
+        "emails": [
+            "alcinelsonmiranda01@gmail.com"
+        ],
+        "planotelefonia_id": "",
+        "planomultimidia_id": "",
+        "planotelefonia": "",
+        "planomultimidia": "",
+        "contrato": 3217,
+        "planointernet_id": ""
+    }
+]

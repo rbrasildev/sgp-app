@@ -1,64 +1,78 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useEffect, useState } from 'react';
+import auth from '@/constants/auth';
+import api from '@/services/api';
+import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Animatable from 'react-native-animatable';
+
+
+type ContratoProps = {
+  razaosocial: string;
+  contrato: number;
+  cpfcnpj: string;
+  planointernet: string;
+  vencimento: string;
+  planointernet_valor: string;
+}
 
 export default function HomeScreen() {
+  const [data, setData] = useState<ContratoProps>([])
+
+  const handleContrato = async () => {
+    try {
+      const response = await auth();
+      const data = await api(response.cpfcnpj, '123456')
+
+      const filtered = data.contratos.filter((item: ContratoProps) => item.contrato == response.contrato)
+
+      setData(filtered[0])
+
+    } catch (error) {
+
+    }
+
+  }
+  useEffect(() => {
+    handleContrato();
+  }, [])
+
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={{ gap: 4 }}>
+        <Animatable.View animation={'slideInLeft'} style={styles.profile}>
+          <Animatable.Text delay={150} style={{ fontWeight: '700' }} animation={'slideInLeft'}>{data.razaosocial}</Animatable.Text>
+          <Animatable.Text delay={150} style={{ fontWeight: '700' }} animation={'slideInLeft'}>{data.cpfcnpj}</Animatable.Text>
+        </Animatable.View>
+
+        <Animatable.View animation={'slideInLeft'} style={styles.profile}>
+          <Text>Contrato : {data.contrato}</Text>
+          <Text>Plano Atual: {data.planointernet} - {data.planointernet_valor}</Text>
+          <Text>Vencimento todo dia {data.vencimento}</Text>
+        </Animatable.View>
+
+
+        <Button title='Sair' onPress={() => router.push('/login')} />
+      </View>
+
+
+    </SafeAreaView>
   );
 }
 
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    padding: 16,
+
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  profile: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
   },
   reactLogo: {
     height: 178,

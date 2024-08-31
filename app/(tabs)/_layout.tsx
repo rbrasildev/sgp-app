@@ -4,6 +4,7 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -32,6 +33,18 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen
+        name='invoice'
+        options={{
+          title: 'Faturas',
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons size={28} name={focused ? 'barcode' : 'barcode'} color={color} />
+          ),
+        }}
+      />
+
     </Tabs>
+
   );
 }
