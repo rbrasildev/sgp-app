@@ -1,15 +1,19 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { router } from "expo-router";
-import { FlatList, TouchableOpacity, View, Text, StyleSheet } from "react-native"
-import * as Animatable from 'react-native-animatable';
+import { FlatList, TouchableOpacity, View, Text } from "react-native"
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
-const Contracts = ({ contratos, ...rest }) => {
+type ContratoProps = {
+    contrato: number,
+    razaosocial: string;
+    planointernet: string;
+    cpfcnpj: string;
+}
+const Contracts = ({ contrato }: ContratoProps) => {
     const { setItem } = useAsyncStorage('@sgp')
 
 
     const handleSaveData = async (cpfcnpj: string, contrato: string) => {
-        console.log(contrato)
         try {
             setItem(JSON.stringify({
                 cpfcnpj,
@@ -23,67 +27,46 @@ const Contracts = ({ contratos, ...rest }) => {
         }
     }
     return (
-        <Animatable.View animation="fadeInUp"
-            {...rest}
-            style={styles.popUp}
-        >
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: 10
-            }}>
-                <Text style={{ fontSize: 20, paddingVertical: 10 }}>Selecione o contrato</Text>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons size={20} name="close" />
-                </TouchableOpacity>
-            </View>
-            <FlatList
-                data={contratos}
-                renderItem={({ item }) => (
 
+        <FlatList
+            data={contrato}
+            renderItem={({ item }) => (
+                <View>
                     <TouchableOpacity
                         onPress={() => handleSaveData(item.cpfcnpj, item.contrato)}
-                        style={styles.buttonList}>
+                        className="just-center"
+
+                    >
                         <View style={{ flexDirection: 'row' }}>
-                            <MaterialCommunityIcons size={20} color={'#666'} name='file-document' />
+                            <MaterialCommunityIcons size={20} color={'#eee'} name='file-document' />
                             <Text style={{ color: '#333' }}>{item.contrato}</Text>
                         </View>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ color: '#333', fontWeight: '700' }}>{item.razaosocial}</Text>
-                            <Text style={{ color: '#666' }}>{item.planointernet}</Text>
+                            <Text className="text-gray-600 font-bold" >{item.razaosocial}</Text>
+                            <Text className="text-gray-600 font-semibold">{item.planointernet}</Text>
                         </View>
-                    </TouchableOpacity>
-                )}
-                keyExtractor={item => item.contrato}
-            />
-        </Animatable.View>
+                    </TouchableOpacity >
+                </View >
+            )}
+            keyExtractor={item => item.contrato}
+            nestedScrollEnabled={true}
+        />
+
     )
 }
-const styles = StyleSheet.create({
-    popUp: {
-        backgroundColor: '#f3f3f3',
-        padding: 15,
-        borderTopRightRadius: 20,
-        borderTopStartRadius: 20,
-        maxHeight: 300,
-        flex: 1,
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0
-    },
-    buttonList: {
-        flexDirection: 'row',
-        gap: 16,
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        marginVertical: 2,
-        padding: 10,
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: "#eee",
-    }
-})
+// const styles = StyleSheet.create({
+
+//     buttonList: {
+//         alignItems: 'center',
+//         backgroundColor: 'orange',
+//         flexDirection: 'row',
+//         borderWidth: 1,
+//         borderColor: '#dddd',
+//         marginVertical: 2,
+//         padding: 10,
+//         borderRadius: 16,
+//         gap: 16
+
+//     }
+// })
 export default Contracts;
