@@ -1,6 +1,6 @@
 import { Switch as NativeSwitch, useColorScheme } from 'react-native';
 
-import { theme } from '@/styles/theme';
+import { theme } from '@/src/styles/theme';
 
 function Switch({
   ...props

@@ -1,16 +1,17 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { router } from "expo-router";
-import { FlatList, TouchableOpacity, View, Text, ScrollView } from "react-native"
+import { FlatList, TouchableOpacity, View, Text } from "react-native"
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 
 type ContratoProps = {
+    data: ArrayLike<any>;
     contrato: number,
     razaosocial: string;
     planointernet: string;
     cpfcnpj: string;
 }
-const Contracts = ({ contrato }: ContratoProps) => {
+export default function Contracts({ data }: ContratoProps) {
     const { setItem } = useAsyncStorage('@sgp')
 
 
@@ -30,16 +31,15 @@ const Contracts = ({ contrato }: ContratoProps) => {
     return (
 
         <FlatList
-            data={contrato}
+            data={data}
             renderItem={({ item }) => (
-
                 <TouchableOpacity
                     onPress={() => handleSaveData(item.cpfcnpj, item.contrato)}
-                    className=" bg-orange-300 p-4 my-2 gap-4 rounded-xl flex-row"
+                    className=" bg-orange-200 p-4 my-1 rounded-xl flex-row gap-6"
                 >
-                    <View className="flex-row">
-                        <MaterialCommunityIcons size={20} color={'#eee'} name='file-document' />
-                        <Text style={{ color: '#333' }}>{item.contrato}</Text>
+                    <View className="flex-row items-center">
+                        <MaterialCommunityIcons size={32} color={'#fff'} name='file-document' />
+                        <Text className="text-gray-500 font-bold">{item.contrato}</Text>
                     </View>
                     <View >
                         <Text className="text-gray-600 font-bold" >{item.razaosocial}</Text>
@@ -51,19 +51,4 @@ const Contracts = ({ contrato }: ContratoProps) => {
         />
     )
 }
-// const styles = StyleSheet.create({
 
-//     buttonList: {
-//         alignItems: 'center',
-//         backgroundColor: 'orange',
-//         flexDirection: 'row',
-//         borderWidth: 1,
-//         borderColor: '#dddd',
-//         marginVertical: 2,
-//         padding: 10,
-//         borderRadius: 16,
-//         gap: 16
-
-//     }
-// })
-export default Contracts;

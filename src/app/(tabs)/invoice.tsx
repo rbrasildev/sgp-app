@@ -1,6 +1,6 @@
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs';
+import { Collapsible } from '@/src/components/Collapsible';
+import { ExternalLink } from '@/src/components/ExternalLink';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/src/components/Tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView, Text, View } from 'react-native';
 

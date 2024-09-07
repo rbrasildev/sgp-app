@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/src/lib/utils';
 
 interface TabsContextProps {
   activeTab: string;
