@@ -1,107 +1,88 @@
+import Contracts from '@/components/Contracts/Contracts'
 import api from '@/services/api'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useAsyncStorage } from '@react-native-async-storage/async-storage'
-import { router, useNavigation } from 'expo-router'
-import { useState } from 'react'
-import { Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native'
 
+import { useState, useRef, useCallback } from 'react'
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { Text, View, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native'
+import * as Animatable from 'react-native-animatable';
+import Load from '@/components/Load';
+import { Switch } from '@/components/Switch';
+import { Button } from '@/components/Button';
 
-const Login = () => {
-    const [cpfCnpj, setCpfCnpj] = useState('95231447234')
-    const [contratoData, setContratoData] = useState([])
+type ContratoProps = {
 
-    const { setItem, getItem } = useAsyncStorage('@sgp')
+    contrato: number,
+    razaosocial: string;
+    planointernet: string;
+    cpfcnpj: string;
+
+}
+
+export default function login() {
+    const [cpfCnpj, setCpfCnpj] = useState('018.198.802-06')
+    const [contratoData, setContratoData] = useState<ContratoProps[]>([])
+    const [isLoaded, setIsloaded] = useState(false)
+
+    const bottomSheetRef = useRef<BottomSheet>(null);
+
+    const handleSheetChanges = useCallback((index: number) => {
+
+    }, []);
 
     const handleGetDataUser = async () => {
         try {
+            setIsloaded(true)
             const response = await api(cpfCnpj, '123456')
-            setContratoData(response)
-            handeSaveData()
-
+            setContratoData(response.contratos)
+            bottomSheetRef.current?.expand()
         } catch (error) {
-            console.log(error)
-        }
-    }
-
-
-    const handeSaveData = async () => {
-        setItem(JSON.stringify(contratoData));
-        try {
-
-        } catch (error) {
-            console.log(error)
+            console.log(error);
+        } finally {
+            setIsloaded(false)
         }
     }
 
     return (
         <View
-            style={{
-                flex: 1,
-                backgroundColor: '#141414',
-                justifyContent: 'center',
-                padding: 16,
-                paddingTop: 30,
-            }}
+            className='justify-center p-6 flex-1'
         >
-            <Text style={{ color: '#fff' }}>Login</Text>
-            <TextInput
-                placeholder='Digite CPF/CNPJ'
-                placeholderTextColor={'#999'}
-                onChangeText={setCpfCnpj}
-                value={cpfCnpj}
-                style={{
-                    backgroundColor: '#212121',
-                    padding: 16,
-                    borderRadius: 16,
-                    marginVertical: 16,
-                    color: '#999'
-                }}
-            />
-            <TouchableOpacity
-                onPress={() => handleGetDataUser()}
-                style={{
-                    backgroundColor: 'orange',
-                    padding: 20,
-                    borderRadius: 16,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: 16
-                }}
+            <Animatable.View
+                animation="slideInLeft"
             >
-                <Text style={{ color: '#fff', fontSize: 18 }}>Entrar</Text>
-            </TouchableOpacity>
+                <Text >Login</Text>
+                <TextInput
+                    placeholder='Digite CPF/CNPJ'
+                    placeholderTextColor={'#999'}
+                    onChangeText={setCpfCnpj}
+                    value={cpfCnpj}
+                    className='bg-orange-50 p-6 rounded-xl my-2 font-bold text-lg'
+                />
+                {/* <TouchableOpacity
+                    disabled={isLoaded}
+                    onPress={() => handleGetDataUser()}
+                    className='bg-orange-400 p-6 rounded-xl justify-center items-center my-2'
+                >
+                    {isLoaded ? (<Load color='#fff' size={32} />) : (<Text className='text-white text-lg'>Entrar</Text>)}
+                </TouchableOpacity> */}
+                <Button
+                    onPress={handleGetDataUser}
+                    disabled={isLoaded}
+                    label={isLoaded ? (<Load color='#fff' size={18} />) : 'Entrar'}
+                    className='bg-orange-400 p-6' variant={'default'} />
+                <Switch />
 
-            <FlatList
-                data={contratoData.contratos}
-                renderItem={({ item }) => (
-                    <View>
-                        <TouchableOpacity
-                            style={{
-                                flexDirection: 'row',
-                                gap: 4, justifyContent: 'space-around',
-                                alignItems: 'center',
-                                backgroundColor: '#333',
-                                marginVertical: 2,
-                                padding: 10,
-                                borderRadius: 16,
-                                borderWidth: 1,
-                                borderColor: "#666",
-                            }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <MaterialCommunityIcons onPress={() => useNavigation('/')} size={20} color={'#666'} name='file-account' />
-                                <Text style={{ color: '#fff' }}>{item.contrato}</Text>
-                            </View>
-                            <View>
-                                <Text style={{ color: '#fff', fontWeight: '700' }}>{item.razaosocial}</Text>
-                                <Text style={{ color: '#666' }}>{item.planointernet}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                keyExtractor={item => item.contrato}
-            />
+            </Animatable.View>
+
+            <BottomSheet
+                ref={bottomSheetRef}
+                onChange={handleSheetChanges}
+                snapPoints={[0.01, 284]}
+            >
+                <BottomSheetView className='p-4' >
+                    <Text style={{ padding: 4 }}>Selecione um contrato 📑</Text>
+                    < Contracts contrato={contratoData} />
+                </BottomSheetView>
+            </BottomSheet>
         </View>
     )
 }
-
-export default Login

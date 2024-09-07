@@ -1,20 +1,16 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { isLoaded, useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { router, Slot, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
+import '@/styles/global.css';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import Login from './login';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [isLogged, setIsLogged] = useState(false);
-  const colorScheme = useColorScheme();
+
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -29,19 +25,23 @@ export default function RootLayout() {
     return null;
   }
 
-  if (!isLogged) {
-    return <Login />
+
+  function InitialLayout() {
+    const [isLogged, setIsLogged] = useState(false);
+    useEffect(() => {
+
+      if (isLogged) {
+        router.replace("(tabs)")
+      } else {
+        router.replace("/login")
+      }
+    }, [isLogged])
+    return <Slot />
   }
 
   return (
-    <>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-          <Stack.Screen name="login" />
-        </Stack>
-      </ThemeProvider>
-    </>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <InitialLayout />
+    </GestureHandlerRootView>
   );
 }
