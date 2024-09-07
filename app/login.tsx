@@ -1,6 +1,7 @@
 import api from '@/services/api'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import { router, useNavigation } from 'expo-router'
 import { useState } from 'react'
 import { Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native'
 
@@ -87,7 +88,7 @@ const Login = () => {
                                 borderColor: "#666",
                             }}>
                             <View style={{ flexDirection: 'row' }}>
-                                <MaterialCommunityIcons size={20} color={'#666'} name='file-account' />
+                                <MaterialCommunityIcons onPress={() => useNavigation('/')} size={20} color={'#666'} name='file-account' />
                                 <Text style={{ color: '#fff' }}>{item.contrato}</Text>
                             </View>
                             <View>
