@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, TouchableOpacityProps, ActivityIndicator } from
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string
-  isLoading: boolean,
+  isLoading?: boolean,
   icon: keyof typeof Ionicons.glyphMap
 }
 export function Button({
@@ -13,7 +13,7 @@ export function Button({
   ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
-      className="flex-row w-full items-center justify-center gap-2 bg-orange-500 rounded-xl p-5"
+      className="flex-row w-full items-center justify-center gap-2 bg-orange-500 rounded-3xl p-6"
       disabled={isLoading}
       activeOpacity={0.8}
       {...rest}>

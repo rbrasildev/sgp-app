@@ -1,4 +1,4 @@
-import { Image, Text, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import { useEffect, useState } from 'react';
 import auth from '@/src/constants/auth';
@@ -51,26 +51,41 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className='bg-black'>
       <View className='bg-gray-100 h-full'>
-        <View className='bg-slate-900 p-4 py-16 justify-center items-center relative'>
+        <View className='bg-slate-900 p-4 py-14 justify-center items-center relative'>
           <Image className='w-[134px] h-20' source={require('@/assets/images/logo_white.png')} />
           <View className='flex-row items-center justify-between w-full my-4'>
-            <Text className="text-red-500 text-xl">Olá, {data.razaosocial}</Text>
-            <MaterialCommunityIcons name="cog" size={32} color={'#fff'} />
+            <Text className="text-slate-100 font-semibold text-xl">Olá, {data.razaosocial}</Text>
+            <TouchableOpacity onPress={() => router.push("/login")}>
+              <MaterialCommunityIcons name="cog" size={32} color={'#fff'} />
+            </TouchableOpacity>
           </View>
 
-          <View className='bg-white m-4 py-10 absolute bottom-[-64] left-0 right-0 shadow-md  rounded-xl p-4 flex-row justify-between'>
-            <Text className='text-red-300 text-xl'>Contrato : {data.status}</Text>
-            <Text className='text-red-300 text-xl'>Contrato : {data.contrato}</Text>
+          <View className='bg-white m-4 py-8 absolute bottom-[-72px] left-0 right-0 shadow-md  rounded-xl p-8 flex-row justify-between'>
+            <View className='flex-row items-center gap-2'>
+              <MaterialCommunityIcons name='check-circle-outline' size={32} color={'green'} />
+              <Text className='text-slate-900 text-xl'>Status : {data.status}</Text>
+            </View>
+            <View className='items-center'>
+              <Text className='text-slate-900 text-xl'>CONTRATO</Text>
+              <View className='flex-row items-center gap-2'>
+                <MaterialCommunityIcons name='file-document' size={32} />
+                <Text className='text-slate-900 text-xl'>{data.contrato}</Text>
+              </View>
+            </View>
           </View>
         </View>
 
-        <View className='p-4 gap-4 mt-12'>
-          <Animatable.View animation={'slideInLeft'}>
-            <Text>Plano Atual: {data.planointernet} - {data.planointernet_valor}</Text>
-            <Text>Vencimento todo dia {data.vencimento}</Text>
-          </Animatable.View>
+        <View className='p-4 gap-6 mt-16'>
+          <Animatable.View className='flex-row gap-4' animation={'slideInLeft'}>
+            <View className='shadow bg-white flex-1 rounded-xl'>
+              <Text>Fatura</Text>
+            </View>
+            <View className='gap-2 w-56'>
+              <Button icon='barcode' title='Faturas' />
+              <Button className='bg-blue-500 flex-row p-4 rounded-xl justify-center' icon='barcode' title='Promessas' />
 
-          <Button onPress={() => router.push('/invoice')} isLoading={false} icon='barcode' title='Faturas' />
+            </View>
+          </Animatable.View>
         </View>
       </View>
     </SafeAreaView>

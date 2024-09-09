@@ -55,8 +55,8 @@ function TabsTrigger({
 
   return (
     <TouchableOpacity
-      className={cn('px-8 py-3 border rounded-md w-1/2 bg-muted', {
-        'bg-foreground': activeTab === value,
+      className={cn('px-8 py-3 w-1/2 bg-muted rounded-2xl justify-center items-center', {
+        'bg-orange-300': activeTab === value,
         className,
       })}
       onPress={() => setActiveTab(value)}
@@ -64,7 +64,7 @@ function TabsTrigger({
     >
       <Text
         className={cn(
-          'font-medium border text-center text-muted-foreground',
+          'font-semibold text-muted-foreground',
           { 'text-background': activeTab === value },
           textClasses
         )}
@@ -85,7 +85,7 @@ function TabsContent({ value, className, ...props }: TabsContentProps) {
     return (
       <View
         className={cn(
-          'border border-border mt-2 px- py-4 rounded-xl',
+          'mt-2 px- py-4 rounded-xl',
           className
         )}
         {...props}

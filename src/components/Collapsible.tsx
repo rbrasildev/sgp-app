@@ -1,42 +1,38 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { PropsWithChildren, useState } from 'react';
-import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
-
-import { ThemedText } from '@/src/components/ThemedText';
-import { ThemedView } from '@/src/components/ThemedView';
+import { TouchableOpacity, useColorScheme, View, Text } from 'react-native';
 import { Colors } from '@/src/constants/Colors';
-
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
+interface FaturaProps extends PropsWithChildren {
+  price: string
+  status: string;
+  vencimento: string;
+}
+export function Collapsible({ children, title, price, status, vencimento }: FaturaProps & { title: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? 'light';
 
   return (
-    <ThemedView className='rounded-md p-2'>
+    <View className='rounded-md p-2'>
       <TouchableOpacity
-        style={styles.heading}
         onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}>
+        activeOpacity={0.8}
+        className='flex-row bg-dark mb-12'
+      >
         <Ionicons
           name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
           size={18}
           color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
         />
-        <ThemedText type="defaultSemiBold">{title}</ThemedText>
+        <Text className='text-gray-600 font-bold'> {title}</Text>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
-    </ThemedView>
+      <View className='flex-row justify-between'>
+        <Text className='font-bold text-2xl'>R$ {price}</Text>
+        <View className='bg-orange-300 items-center justify-center px-4 rounded-xl '>
+          <Text className='font-semibold'>{status}</Text>
+        </View>
+      </View>
+      <Text>Vencimento {vencimento}</Text>
+      {isOpen && <View>{children}</View>}
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  heading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-
-  },
-  content: {
-    marginTop: 6,
-    marginLeft: 24,
-  },
-});
