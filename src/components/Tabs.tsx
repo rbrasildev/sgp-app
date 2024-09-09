@@ -56,7 +56,7 @@ function TabsTrigger({
   return (
     <TouchableOpacity
       className={cn('px-8 py-3 w-1/2 bg-muted rounded-2xl justify-center items-center', {
-        'bg-orange-300': activeTab === value,
+        'bg-slate-200': activeTab === value,
         className,
       })}
       onPress={() => setActiveTab(value)}

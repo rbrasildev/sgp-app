@@ -2,6 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { PropsWithChildren, useState } from 'react';
 import { TouchableOpacity, useColorScheme, View, Text } from 'react-native';
 import { Colors } from '@/src/constants/Colors';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 interface FaturaProps extends PropsWithChildren {
   price: string
   status: string;
@@ -16,22 +17,38 @@ export function Collapsible({ children, title, price, status, vencimento }: Fatu
       <TouchableOpacity
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}
-        className='flex-row bg-dark mb-12'
+        className='justify-between px-2'
       >
-        <Ionicons
-          name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
-          size={18}
-          color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
-        />
-        <Text className='text-gray-600 font-bold'> {title}</Text>
-      </TouchableOpacity>
-      <View className='flex-row justify-between'>
-        <Text className='font-bold text-2xl'>R$ {price}</Text>
-        <View className='bg-orange-300 items-center justify-center px-4 rounded-xl '>
-          <Text className='font-semibold'>{status}</Text>
+        <View className='flex-row items-center my-2'>
+          <Ionicons
+            name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
+            size={18}
+            color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
+          />
+          <Text className='text-gray-600 font-bold text-lg mb-2'>Fatura mês de  {new Date(title).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}</Text>
         </View>
-      </View>
-      <Text>Vencimento {vencimento}</Text>
+
+        <View className='flex-row justify-between'>
+          <Text className='font-bold text-2xl'>
+            {price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+            }
+          </Text>
+          {status == 'Gerado' ? (
+            <View className='bg-orange-50 items-center justify-center px-4 rounded-xl '>
+              <Text className='font-semibold text-orange-400'>Em aberto</Text>
+            </View>
+          ) : (
+            <View className='bg-green-50 border border-green-200 items-center justify-center px-4 rounded-xl '>
+              <Text className='font-semibold text-green-400'>{status}</Text>
+            </View>
+          )}
+        </View>
+
+        <View className='flex-row gap-1 items-center'>
+          <MaterialCommunityIcons name='calendar' size={16} />
+          <Text>Vencimento {new Date(vencimento).toLocaleDateString('pt-BR')}</Text>
+        </View>
+      </TouchableOpacity>
       {isOpen && <View>{children}</View>}
     </View>
   );
