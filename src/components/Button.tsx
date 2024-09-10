@@ -13,7 +13,7 @@ export function Button({
   ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
-      className="flex-row w-full items-center justify-center gap-2 bg-orange-500 rounded-3xl p-6"
+      className="flex-row w-full items-center justify-center gap-2 bg-orange-500 rounded-2xl p-4"
       disabled={isLoading}
       activeOpacity={0.8}
       {...rest}>
@@ -21,8 +21,8 @@ export function Button({
         <ActivityIndicator color={'black'} />
       ) : (
         <>
-          <Ionicons name={icon} size={20} />
-          <Text className="font-bold">{title}</Text>
+          <Ionicons name={icon} size={20} color={'#fff'} />
+          <Text className="font-bold text-white">{title}</Text>
         </>
 
       )}

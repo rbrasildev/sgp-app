@@ -2,7 +2,7 @@ import Contracts from '@/src/components/Contracts/Contracts'
 import api from '@/services/api'
 
 import { useState, useRef, useCallback } from 'react'
-import BottomSheet, { BottomSheetFlatList, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { Image, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 
@@ -21,7 +21,7 @@ interface ContratoProps {
 }
 
 export default function login() {
-    const [cpfCnpj, setCpfCnpj] = useState('952.314.472-34')
+    const [cpfCnpj, setCpfCnpj] = useState('054.855.172-34')
     const [contratoData, setContratoData] = useState<ContratoProps[]>([])
     const [isLoaded, setIsloaded] = useState(false)
 
@@ -88,9 +88,8 @@ export default function login() {
                     onPress={handleGetDataUser}
                     isLoading={isLoaded}
                     title='Entrar'
+                    style={{ padding: 22}}
                 />
-
-
             </Animatable.View>
 
             <BottomSheet
