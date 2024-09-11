@@ -1,8 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-
 import { TabBarIcon } from '@/src/components/navigation/TabBarIcon';
-
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
@@ -16,6 +14,8 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           headerShown: false,
+          tabBarInactiveTintColor: '#666',
+          tabBarActiveTintColor: '#333',
         }}>
         <Tabs.Screen
           name="index"
@@ -26,13 +26,22 @@ export default function TabLayout() {
             ),
           }}
         />
-   
+
         <Tabs.Screen
           name='invoice'
           options={{
             title: 'Faturas',
             tabBarIcon: ({ color, focused }) => (
-              <MaterialCommunityIcons size={28} name={focused ? 'barcode' : 'barcode'} color={color} />
+              <MaterialCommunityIcons size={28} name={focused ? 'barcode-scan' : 'barcode-scan'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name='support'
+          options={{
+            title: 'Suporte',
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialCommunityIcons size={28} name={focused ? 'account-supervisor-circle' : 'account-supervisor-circle'} color={color} />
             ),
           }}
         />

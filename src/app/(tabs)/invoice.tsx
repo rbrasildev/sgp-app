@@ -6,12 +6,12 @@ import { FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useRef, useEffect, useState } from 'react';
 import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
 
-import { FlatList, Linking, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Linking, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
 import * as Animatable from 'react-native-animatable';
 import { Button } from '@/src/components/Button';
-import { Link } from 'expo-router';
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native'
 
 
 interface FaturaProps {
@@ -38,9 +38,13 @@ interface FaturaProps {
 
 export default function invoice() {
     const [icon, setIcon] = useState('copy-outline')
-    const [titulo, setTitulo] = useState<FaturaProps[]>([])
-    const bottomSheetRef = useRef<BottomSheet>(null);
     const [list, setList] = useState('')
+    const [titulo, setTitulo] = useState<FaturaProps[]>([])
+    const [isLoading, setIsloading] = useState(false)
+    const bottomSheetRef = useRef<BottomSheet>(null);
+
+    const { height, width } = useWindowDimensions();
+
 
     const copyToClipboard = async () => {
         await Clipboard.setStringAsync(list);
@@ -57,16 +61,19 @@ export default function invoice() {
 
     const handleInvoices = async () => {
         try {
+            setIsloading(true)
             const response = await getInvoices();
             setTitulo(response.faturas)
         } catch (error) {
-
+            console.log(error)
+        } finally {
+            setIsloading(false)
         }
     }
 
     useEffect(() => {
         handleInvoices();
-    }, [titulo])
+    }, [])
 
     const handleOpenLink = async (url: string) => {
         const supported = await Linking.canOpenURL(url);
@@ -78,7 +85,7 @@ export default function invoice() {
         }
     };
 
-    const CardFaturaAbertas = ({ item }) => (
+    const CardFaturaAbertas = ({ item }: FaturaProps) => (
         <Animatable.View animation={'slideInLeft'} className='rounded-2xl my-1 p-2 bg-white shadow'>
             <Collapsible
                 title={item.vencimento}
@@ -101,11 +108,29 @@ export default function invoice() {
                     </TouchableOpacity>
 
                 </View>
-
             </Collapsible>
-
         </Animatable.View>
     )
+
+
+    if (isLoading) {
+        return (
+            <View className='flex-1 p-4 mt-6'>
+                <ContentLoader
+                    backgroundColor='#ccc'
+                    foregroundColor='#ddd'
+                    viewBox={`0 0 ${width} ${height}`}
+                >
+                    <Rect x="10" y="43" rx="8" ry="8" width="350" height="60" />
+                    <Rect x="10" y="150" rx="8" ry="8" width="350" height="100" />
+                    <Rect x="10" y="260" rx="8" ry="8" width="350" height="100" />
+                    <Rect x="10" y="370" rx="8" ry="8" width="350" height="100" />
+                    <Rect x="10" y="480" rx="8" ry="8" width="350" height="100" />
+                    <Rect x="10" y="590" rx="8" ry="8" width="350" height="100" />
+                </ContentLoader>
+            </View>
+        )
+    }
 
     const CardFaturasPagas = ({ item }) => (
         <Animatable.View animation={'slideInRight'} className='rounded-2xl my-1 p-4 bg-white shadow'>
@@ -148,7 +173,7 @@ export default function invoice() {
                     </View>
                     <TabsContent style={{ marginBottom: 338 }} value="abertas">
                         <FlatList
-                            data={titulo.filter((item) => item.statusid == 1)}
+                            data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
                             renderItem={CardFaturaAbertas}
                             keyExtractor={(item) => String(item.id)}
                             contentContainerClassName='px-4'
@@ -157,7 +182,7 @@ export default function invoice() {
                     </TabsContent>
                     <TabsContent style={{ marginBottom: 338 }} value="pagas">
                         <FlatList
-                            data={titulo.filter((item) => item.statusid == 2)}
+                            data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
                             renderItem={CardFaturasPagas}
                             keyExtractor={(item) => String(item.id)}
                             contentContainerClassName='px-4'
