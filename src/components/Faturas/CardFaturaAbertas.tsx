@@ -16,11 +16,11 @@ const CardFaturaAbertas = ({ item }: any) => {
                 </Text>
                 {new Date(item.vencimento) < new Date() && (
                     <View className='bg-red-50 items-center border border-red-400 justify-center px-4 rounded-xl'>
-                        <Text className='font-semibold text-red-400'>Atrasado</Text>
+                        <Text className='font-semibold text-red-400'>Atrasada</Text>
                     </View>
                 )}
             </View>
-            <Button className="bg-orange-300 flex-row p-4 rounded-2xl gap-2 justify-center" icon="barcode" title="Pagar" />
+            <Button className="bg-green-500 flex-row p-2 m-2 rounded-xl gap-1 justify-center" icon="barcode-outline" title="Pagar" />
         </View>
     )
 }

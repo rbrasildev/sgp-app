@@ -64,11 +64,13 @@ export default function HomeScreen() {
   const handleContrato = async () => {
     try {
       setIsloading(true)
-      const response = await auth();
-      const data = await api(response.cpfcnpj, '123456')
-      const filtered = data.contratos.filter((item: ContratoProps) => item.contrato == response.contrato)
+      const AuthUser = await auth();
+      const data = await api(AuthUser.cpfcnpj, '123456')
+      const invoice = await getInvoices();
+      const filtered = data.contratos.filter((item: ContratoProps) => item.contrato == AuthUser.contrato)
+
       setData(filtered[0])
-
+      setTitulo(invoice.faturas)
     } catch (error) {
       console.log(error)
     } finally {
@@ -78,21 +80,10 @@ export default function HomeScreen() {
   }
 
 
-  const handleInvoices = async () => {
-    try {
-      setIsloading(true)
-      const response = await getInvoices();
-      setTitulo(response.faturas)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsloading(false)
-    }
-  }
 
   useEffect(() => {
     handleContrato()
-    handleInvoices()
+
   }, [])
 
 
@@ -104,15 +95,15 @@ export default function HomeScreen() {
           foregroundColor='#ddd'
           viewBox={`0 0 ${width} ${height}`}
         >
-          <Rect x="90" y="10" rx="0" ry="0" width="200" height="100" />
-          <Rect x="10" y="120" rx="8" ry="8" width="340" height="25" />
-          <Circle cx="370" cy="130" r="15" />
+          <Rect x="80" y="10" rx="8" ry="8" width="200" height="100" />
+          <Rect x="10" y="120" rx="8" ry="8" width="300" height="25" />
+          <Circle cx="340" cy="130" r="15" />
           <Rect x="10" y="155" rx="8" ry="8" width="345" height="100" />
+          <Rect x="10" y="265" rx="8" ry="8" width="345" height="300" />
         </ContentLoader>
       </View>
     )
   }
-
 
 
   return (
@@ -123,20 +114,21 @@ export default function HomeScreen() {
           <View className='flex-row items-center justify-between w-full mb-11'>
             <Text className="text-slate-100 font-semibold text-xl">Olá, {data.razaosocial}</Text>
             <TouchableOpacity onPress={logout}>
-              <MaterialCommunityIcons name="cog" size={32} color={'#fff'} />
+              <MaterialCommunityIcons name="logout" size={28} color={'#fff'} />
             </TouchableOpacity>
           </View>
 
-          <View className='bg-white m-4 py-8 absolute bottom-[-72px] left-0 right-0 shadow-md  rounded-xl p-8 flex-row justify-between'>
+          <View className='bg-white m-4 py-6 absolute bottom-[-72px] left-0 right-0 shadow-md  rounded-xl p-8 flex-row justify-between'>
             <View className='flex-row items-center gap-2'>
-              <MaterialCommunityIcons name='check-circle-outline' size={32} color={'green'} />
-              <Text className='text-slate-900 text-xl'>Status : {data.status}</Text>
+
+              <MaterialCommunityIcons name='check-circle-outline' size={32} color={data.status?.trim() == 'Suspenso' ? 'orange' : data.status?.trim() == 'Ativo' ? 'green' : 'red'} />
+              <Text className='text-slate-900 text-lg'>Status : {data.status}</Text>
             </View>
             <View className='items-center'>
-              <Text className='text-slate-900 text-xl'>CONTRATO</Text>
+              <Text className='text-slate-900 text-xl font-medium'>CONTRATO</Text>
               <View className='flex-row items-center gap-2'>
-                <MaterialCommunityIcons name='file-document' size={32} />
-                <Text className='text-slate-900 text-xl'>{data.contrato}</Text>
+                <MaterialCommunityIcons name='file-document-outline' color={'green'} size={32} />
+                <Text className='text-slate-900 text-xl font-bold'>{data.contrato}</Text>
               </View>
             </View>
           </View>
@@ -146,7 +138,9 @@ export default function HomeScreen() {
           <Animatable.View className='flex-row gap-4' animation={'slideInLeft'}>
             <View className='shadow bg-white flex-1 rounded-xl p-4 gap-3'>
               <View>
-                <Text className='text-lg'>Você possui {titulo.filter((item: FaturaProps) => item.statusid == 1 && new Date(item.vencimento) < new Date()).length} fatura(s) em aberto</Text>
+                <Text className='text-lg font-medium p-2'>
+                  {titulo.filter((item: FaturaProps) => item.statusid == 1 && new Date(item.vencimento) < new Date()).length <= 0 ? 'Você não possui nenhuma fatura em aberta' : 'Você possui ' + titulo.filter((item: FaturaProps) => item.statusid == 1 && new Date(item.vencimento) < new Date()).length + ' fatura(s) em aberto'}</Text>
+
                 <FlatList
                   horizontal
                   data={titulo.filter((item: FaturaProps) => item.statusid == 1 && new Date(item.vencimento) < new Date())}
@@ -157,12 +151,20 @@ export default function HomeScreen() {
                   contentContainerStyle={{ gap: 5, margin: 5 }}
                 />
               </View>
+              {data.status?.trim() == 'Suspenso' &&
+                (
+                  <View>
+                    <View className='flex-row items-center gap-2'>
+                      <MaterialCommunityIcons name='lock' size={20} color={'orange'} />
+                      <Text className='text-lg my-2 font-medium'>Sua internet está suspensa</Text>
+                    </View>
+                    <Text className='font-thin mb-3 px-3'>Não fique offline, clique no botão abaixo e continue navegando...</Text>
+                    <Button icon='lock-open' title='Liberar sua internet' />
+                  </View>
+                )
 
-              <View className='flex-row items-center gap-2'>
-                <MaterialCommunityIcons name='alert' size={20} color={'orange'} />
-                <Text className='font-normal text-lg'>Sua internet está suspensa</Text>
-              </View>
-              <Button icon='lock-open' title='Liberar sua internet' />
+              }
+
             </View>
 
           </Animatable.View>

@@ -34,12 +34,14 @@ interface FaturaProps {
     valorcorrigido: Number
     vencimento: Date
     vencimento_atualizado: Date
+    codigo : string;
+    title : string;
 }
 
 export default function invoice() {
     const [icon, setIcon] = useState('copy-outline')
-    const [list, setList] = useState('')
-    const [titulo, setTitulo] = useState<FaturaProps[]>([])
+    const [list, setList] = useState([])
+    const [titulo, setTitulo] = useState([])
     const [isLoading, setIsloading] = useState(false)
     const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -47,14 +49,14 @@ export default function invoice() {
 
 
     const copyToClipboard = async () => {
-        await Clipboard.setStringAsync(list);
+        await Clipboard.setStringAsync(list.codigo);
         setIcon('copy')
         setTimeout(() => {
             setIcon('copy-outline')
         }, 2000)
     }
 
-    const openBottomSheet = (item: string) => {
+    const openBottomSheet = (item: []) => {
         setList(item)
         bottomSheetRef.current?.expand()
     }
@@ -85,7 +87,7 @@ export default function invoice() {
         }
     };
 
-    const CardFaturaAbertas = ({ item }: FaturaProps) => (
+    const CardFaturaAbertas = ({ item }: any) => (
         <Animatable.View animation={'slideInLeft'} className='rounded-2xl my-1 p-2 bg-white shadow'>
             <Collapsible
                 title={item.vencimento}
@@ -93,11 +95,11 @@ export default function invoice() {
                 status={item.status}
                 vencimento={item.vencimento}>
                 <View className='gap-1 mt-4'>
-                    <TouchableOpacity onPress={() => openBottomSheet(item.linhadigitavel)} className='bg-orange-500 flex-row rounded-2xl gap-2 p-3 px-4'>
+                    <TouchableOpacity onPress={() => openBottomSheet({ codigo: item.linhadigitavel, title: 'Código de barras' })} className='bg-orange-500 flex-row rounded-2xl gap-2 p-3 px-4'>
                         <FontAwesome6 name='barcode' size={20} color='#fff' />
                         <Text className='text-white font-semibold'>Código de barras</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => copyToClipboard(item.codigopix)} className='bg-orange-500 flex-row rounded-2xl gap-2 p-3 px-4'>
+                    <TouchableOpacity onPress={() => openBottomSheet({ codigo: item.codigopix, title: 'Código copia e cola PIX' })} className='bg-orange-500 flex-row rounded-2xl gap-2 p-3 px-4'>
                         <FontAwesome6 name='pix' size={20} color={'#fff'} />
                         <Text className='text-white font-semibold'>Pix copia e cola</Text>
                     </TouchableOpacity>
@@ -176,7 +178,7 @@ export default function invoice() {
                             data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
                             renderItem={CardFaturaAbertas}
                             keyExtractor={(item) => String(item.id)}
-                            contentContainerClassName='px-4'
+                            contentContainerClassName='px-2'
                             bouncesZoom
                         />
                     </TabsContent>
@@ -185,7 +187,7 @@ export default function invoice() {
                             data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
                             renderItem={CardFaturasPagas}
                             keyExtractor={(item) => String(item.id)}
-                            contentContainerClassName='px-4'
+                            contentContainerClassName='px-2'
                             bouncesZoom
                         />
                     </TabsContent>
@@ -199,9 +201,9 @@ export default function invoice() {
 
             >
                 <View className='p-8'>
-                    <Text className='py-3 text-lg'>Código de Barras</Text>
-                    <BottomSheetTextInput multiline={true} numberOfLines={3} className='bg-slate-100 rounded-2xl p-3 text-center' value={list} />
-                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={icon} title='Copiar código de barras' />
+                    <Text className='py-3 text-lg font-medium'>{list.title}</Text>
+                    <BottomSheetTextInput multiline={true} numberOfLines={3} className='bg-slate-100 rounded-2xl p-3 text-center' value={list.codigo} />
+                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={icon} title='Copiar' />
                 </View>
             </BottomSheet>
         </SafeAreaView>
