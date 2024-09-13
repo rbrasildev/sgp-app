@@ -1,46 +1,23 @@
 import { getInvoices } from '@/services/getInvoices';
 import { Collapsible } from '@/src/components/Collapsible';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/src/components/Tabs';
 import { FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useRef, useEffect, useState } from 'react';
 import BottomSheet, { BottomSheetTextInput } from '@gorhom/bottom-sheet';
-
 import { FlatList, Linking, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
 import * as Animatable from 'react-native-animatable';
 import { Button } from '@/src/components/Button';
-import ContentLoader, { Rect, Circle } from 'react-content-loader/native'
+import ContentLoader, { Rect } from 'react-content-loader/native'
+import { FaturaProps } from '@/src/types/SgpTypes';
 
 
-interface FaturaProps {
-    codigopix: string;
-    data_pagamento: Date
-    gerapix: Boolean,
-    id: Number
-    idtransacao: Number
-    linhadigitavel: String
-    link: String
-    link_completo: String
-    numero_documento: Number
-    pagarcartao: Boolean
-    pagarcartaocheckout: String
-    pagarcartaodebito: Boolean
-    recibo: String
-    status: String
-    statusid: Number
-    valor: Number
-    valorcorrigido: Number
-    vencimento: Date
-    vencimento_atualizado: Date
-    codigo : string;
-    title : string;
-}
+
 
 export default function invoice() {
     const [icon, setIcon] = useState('copy-outline')
-    const [list, setList] = useState([])
+    const [list, setList] = useState<[] | any>([])
     const [titulo, setTitulo] = useState([])
     const [isLoading, setIsloading] = useState(false)
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -108,7 +85,6 @@ export default function invoice() {
                         <MaterialCommunityIcons name='cloud-download' size={22} color={'#fff'} />
                         <Text className='text-white font-semibold'>Baixar Fatura</Text>
                     </TouchableOpacity>
-
                 </View>
             </Collapsible>
         </Animatable.View>
@@ -134,10 +110,11 @@ export default function invoice() {
         )
     }
 
-    const CardFaturasPagas = ({ item }) => (
+    const CardFaturasPagas = ({ item }: FaturaProps | any) => (
         <Animatable.View animation={'slideInRight'} className='rounded-2xl my-1 p-4 bg-white shadow'>
             <Text className='font-semibold text-gray-500 text-xl'>
                 Fatura de {new Date(item.vencimento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
+
             </Text>
             <View className='flex-row justify-between my-2 px-2'>
                 <Text className='font-bold text-3xl'>
@@ -177,7 +154,7 @@ export default function invoice() {
                         <FlatList
                             data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
                             renderItem={CardFaturaAbertas}
-                            keyExtractor={(item) => String(item.id)}
+                            keyExtractor={(item: FaturaProps) => String(item.id)}
                             contentContainerClassName='px-2'
                             bouncesZoom
                         />
@@ -186,7 +163,7 @@ export default function invoice() {
                         <FlatList
                             data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
                             renderItem={CardFaturasPagas}
-                            keyExtractor={(item) => String(item.id)}
+                            keyExtractor={(item: FaturaProps) => String(item.id)}
                             contentContainerClassName='px-2'
                             bouncesZoom
                         />
@@ -198,6 +175,7 @@ export default function invoice() {
                 index={0}
                 snapPoints={[0.01, 400]}
                 keyboardBehavior="fillParent"
+                backgroundStyle={{ backgroundColor: '#fff', elevation: 1, borderWidth: 1, borderColor: '#ddd' }}
 
             >
                 <View className='p-8'>

@@ -9,7 +9,7 @@ interface WifiProps {
 }
 
 const WifiStatus = () => {
-    const [wifiStatus, setWifiStatus] = useState<WifiProps>([])
+    const [wifiStatus, setWifiStatus] = useState<WifiProps | any>([])
 
     const handleWifiStatus = async () => {
         try {
@@ -25,22 +25,20 @@ const WifiStatus = () => {
     }, [])
 
     return (
-        <View className='flex-row items-center rounded-2xl bg-white shadow-lg p-4 gap-2 w-1/2'>
+        <View className='flex-row items-center rounded-2xl justify-center bg-white shadow-lg p-2 gap-2'>
             {wifiStatus.status == 1 ? (
                 <>
-                    <MaterialCommunityIcons color={'green'} size={38} name='wifi-check' />
+                    <MaterialCommunityIcons color={'green'} size={28} name='wifi-check' />
                     <View>
-                        <Text>Wifi</Text>
-                        <Text className='font-medium text-lg'>Conectado</Text>
+                        <Text className='font-medium text-lg'>Seu wifi está Online</Text>
                     </View>
 
                 </>
             ) : (
                 <>
-                    <MaterialCommunityIcons color={'red'} size={38} name='wifi-off' />
+                    <MaterialCommunityIcons color={'red'} size={28} name='wifi-off' />
                     <View>
-                        <Text>Wifi</Text>
-                        <Text className='font-medium text-lg'>Desconectado</Text>
+                        <Text className='font-medium text-lg'>Seu wifi está offline</Text>
                     </View>
 
                 </>

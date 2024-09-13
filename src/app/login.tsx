@@ -20,6 +20,8 @@ interface ContratoProps {
 
 }
 
+//993.832.332-49
+
 export default function login() {
     const [cpfCnpj, setCpfCnpj] = useState('054.855.172-34')
     const [contratoData, setContratoData] = useState<ContratoProps[]>([])
@@ -78,6 +80,7 @@ export default function login() {
                     placeholderTextColor={'#999'}
                     onChangeText={setCpfCnpj}
                     value={cpfCnpj}
+                      keyboardType='numeric'
                 />
 
                 <Button

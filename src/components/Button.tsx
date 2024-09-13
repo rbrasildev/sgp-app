@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, TouchableOpacityProps, ActivityIndicator } from
 interface ButtonProps extends TouchableOpacityProps {
   title: string
   isLoading?: boolean,
-  icon: keyof typeof Ionicons.glyphMap
+  icon?: keyof typeof Ionicons.glyphMap
 }
 export function Button({
   title,
