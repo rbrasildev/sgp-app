@@ -28,9 +28,7 @@ export default function login() {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const { setItem } = useAsyncStorage('@sgp')
 
-    const handleSheetChanges = useCallback((index: number) => {
 
-    }, []);
 
     const handleGetDataUser = async () => {
         try {
@@ -94,7 +92,6 @@ export default function login() {
 
             <BottomSheet
                 ref={bottomSheetRef}
-                onChange={handleSheetChanges}
                 snapPoints={[0.01, 284]}
             >
                 <Text className='p-2 text-2xl font-semibold m-4 text-gray-800'>Selecione um contrato 📑</Text>

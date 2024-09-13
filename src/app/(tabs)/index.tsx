@@ -47,6 +47,9 @@ export default function HomeScreen() {
     return <Load color={'orange'} size={32} />
   }
 
+  const statusColors = data.status == 'Ativo' ? 'red' : 'green'
+
+  console.log(statusColors);
 
   return (
     <SafeAreaView className='bg-black'>
@@ -62,7 +65,7 @@ export default function HomeScreen() {
 
           <View className='bg-white m-4 py-8 absolute bottom-[-72px] left-0 right-0 shadow-md  rounded-xl p-8 flex-row justify-between'>
             <View className='flex-row items-center gap-2'>
-              <MaterialCommunityIcons name='check-circle-outline' size={32} color={'green'} />
+              <MaterialCommunityIcons name='check-circle-outline' size={32} color={statusColors} />
               <Text className='text-slate-900 text-xl'>Status : {data.status}</Text>
             </View>
             <View className='items-center'>
