@@ -1,7 +1,7 @@
 import Contracts from '@/src/components/Contracts/Contracts'
 import api from '@/services/api'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef} from 'react'
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { Image, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
@@ -27,7 +27,6 @@ export default function login() {
 
     const bottomSheetRef = useRef<BottomSheet>(null);
     const { setItem } = useAsyncStorage('@sgp')
-
 
 
     const handleGetDataUser = async () => {
@@ -86,7 +85,7 @@ export default function login() {
                     onPress={handleGetDataUser}
                     isLoading={isLoaded}
                     title='Entrar'
-                    style={{ padding: 22}}
+                    style={{ padding: 22 }}
                 />
             </Animatable.View>
 
