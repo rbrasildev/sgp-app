@@ -21,9 +21,10 @@ interface ContratoProps {
 }
 
 //993.832.332-49
+// 952.314.472-34
 
 export default function login() {
-    const [cpfCnpj, setCpfCnpj] = useState('054.855.172-34')
+    const [cpfCnpj, setCpfCnpj] = useState('952.314.472-34')
     const [contratoData, setContratoData] = useState<ContratoProps[]>([])
     const [isLoaded, setIsloaded] = useState(false)
 
