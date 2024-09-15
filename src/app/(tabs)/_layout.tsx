@@ -39,7 +39,8 @@ export default function TabLayout() {
         <Tabs.Screen
           name='support'
           options={{
-            title: 'Suporte',
+            title: 'Central de ajuda',
+            headerShown: true,
             tabBarIcon: ({ color, focused }) => (
               <MaterialCommunityIcons size={28} name={focused ? 'account-supervisor-circle' : 'account-supervisor-circle'} color={color} />
             ),

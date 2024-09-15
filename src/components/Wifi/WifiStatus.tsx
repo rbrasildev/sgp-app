@@ -25,12 +25,12 @@ const WifiStatus = () => {
 	}, []);
 
 	return (
-		<View className="flex-row items-center rounded-2xl justify-center p-4 gap-2 flex-1">
+		<View className="flex-row items-center rounded-2xl justify-center p-6 gap-2">
 			{wifiStatus.status === 1 ? (
 				<>
 					<MaterialCommunityIcons color={"green"} size={28} name="wifi-check" />
 					<View>
-						<Text className="font-medium text-lg">Wifi Online</Text>
+						<Text className="font-medium text-lg">Online</Text>
 					</View>
 				</>
 			) : (

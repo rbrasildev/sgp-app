@@ -4,12 +4,12 @@ export async function getVerifyAccess() {
     try {
         const dataAuth = await auth();
 
-        var formdata = new FormData();
+        const formdata = new FormData();
         formdata.append("cpfcnpj", dataAuth.cpfcnpj);
         formdata.append("senha", '123456');
         formdata.append("contrato", dataAuth.contrato);
 
-        var requestOptions = {
+        const requestOptions = {
             method: 'POST',
             body: formdata,
             redirect: 'follow'

@@ -112,29 +112,26 @@ export default function invoice() {
 
     const CardFaturasPagas = ({ item }: FaturaProps | any) => (
         <Animatable.View animation={'slideInRight'} className='rounded-2xl my-1 p-4 bg-white shadow'>
-            <Text className='font-semibold text-gray-500 text-xl'>
+            <Text className='font-medium text-gray-500 text-xl'>
                 Fatura de {new Date(item.vencimento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
 
             </Text>
             <View className='flex-row justify-between my-2 px-2'>
-                <Text className='font-bold text-3xl'>
+                <Text className='font-bold text-3xl line-through text-gray-300'>
                     {item.valorcorrigido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
                 </Text>
-                {item.status == 'Gerado' ? (
-                    <View className='bg-orange-50 items-center justify-center px-4 rounded-xl '>
-                        <Text className='font-semibold text-orange-400'>Em aberto</Text>
-                    </View>
-                ) : (
-                    <View className='bg-green-50 border border-green-200 items-center justify-center px-4 rounded-xl '>
-                        <Text className='font-semibold text-green-400'>{item.status}</Text>
-                    </View>
-                )}
             </View>
 
-            <View className='flex-row gap-1 items-center px-2'>
-                <MaterialCommunityIcons name='calendar' size={16} />
-                <Text>Pago em {new Date(item.data_pagamento).toLocaleDateString('pt-BR')}</Text>
+            <View className='flex-row gap-1 items-center px-2 justify-between'>
+                <View className='flex-row items-center gap-2'>
+                    <MaterialCommunityIcons name='calendar' size={16} />
+                    <Text>Pago em {new Date(item.data_pagamento).toLocaleDateString('pt-BR')}</Text>
+                </View>
+                <TouchableOpacity onPress={() => handleOpenLink(item.recibo)} activeOpacity={0.7} className='p-2 bg-green-400 rounded-xl px-6 flex-row items-center gap-2'>
+                    <MaterialCommunityIcons name='cloud-download' size={18} color={'#fff'} />
+                    <Text>Recibo</Text>
+                </TouchableOpacity>
             </View>
         </Animatable.View >
     )
@@ -145,12 +142,16 @@ export default function invoice() {
             <View>
                 <Tabs defaultValue="abertas">
                     <View className='bg-slate-900 py-10 px-4'>
+                        <View className='flex-row gap-2'>
+                            <MaterialCommunityIcons color={'#fff'} name='credit-card' size={32} />
+                            <Text className='text-white text-4xl mb-6 font-extrabold'>Faturas</Text>
+                        </View>
                         <TabsList className='rounded-2xl bg-slate-200'>
                             <TabsTrigger value="abertas" id="abertas" title="Em aberto" />
                             <TabsTrigger value='pagas' id="pagas" title="Pagas" />
                         </TabsList>
                     </View>
-                    <TabsContent style={{ marginBottom: 338 }} value="abertas">
+                    <TabsContent style={{ marginBottom: 510 }} value="abertas">
                         <FlatList
                             data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
                             renderItem={CardFaturaAbertas}
@@ -159,7 +160,7 @@ export default function invoice() {
                             bouncesZoom
                         />
                     </TabsContent>
-                    <TabsContent style={{ marginBottom: 338 }} value="pagas">
+                    <TabsContent style={{ marginBottom: 510 }} value="pagas">
                         <FlatList
                             data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
                             renderItem={CardFaturasPagas}
@@ -173,7 +174,7 @@ export default function invoice() {
             <BottomSheet
                 ref={bottomSheetRef}
                 index={0}
-                snapPoints={[0.01, 400]}
+                snapPoints={[0.01, 450]}
                 keyboardBehavior="fillParent"
                 backgroundStyle={{ backgroundColor: '#fff', elevation: 1, borderWidth: 1, borderColor: '#ddd' }}
 

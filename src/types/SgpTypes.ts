@@ -22,6 +22,12 @@ export interface FaturaProps {
 	title: string;
 }
 
+export interface ContratoProps {
+	cpfcnpj: string
+	razaosocial: string
+	contrato: number
+}
+
 export interface ExtratoProps {
 	ano: string;
 	list: [];

@@ -8,6 +8,7 @@ import '@/src/styles/global.css';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,8 +46,8 @@ export default function RootLayout() {
     <GestureHandlerRootView >
       <StatusBar backgroundColor='#333' />
       <View className='bg-gray-100 flex-1'>
-
-      <InitialLayout />
+        <InitialLayout />
+        <Toast />
       </View>
     </GestureHandlerRootView>
   );
