@@ -158,6 +158,8 @@ export default function invoice() {
                             keyExtractor={(item: FaturaProps) => String(item.id)}
                             contentContainerClassName='px-2'
                             bouncesZoom
+                            ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
+
                         />
                     </TabsContent>
                     <TabsContent style={{ marginBottom: 510 }} value="pagas">
@@ -167,6 +169,7 @@ export default function invoice() {
                             keyExtractor={(item: FaturaProps) => String(item.id)}
                             contentContainerClassName='px-2'
                             bouncesZoom
+                            ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
                         />
                     </TabsContent>
                 </Tabs>

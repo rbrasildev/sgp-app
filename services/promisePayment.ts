@@ -8,7 +8,7 @@ export default async function promisePayment() {
     formdata.append("senha", "123456");
     formdata.append("contrato", authUser.contrato);
 
-    const requestOptions = {
+    const requestOptions : {} = {
         method: 'POST',
         body: formdata,
         redirect: 'follow'

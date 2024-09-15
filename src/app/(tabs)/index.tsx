@@ -15,7 +15,7 @@ import { getInvoices } from "@/services/getInvoices";
 import * as Animatable from "react-native-animatable";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useRef, useEffect, useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 import CardFaturaAbertas from "@/src/components/Faturas/CardFaturaAbertas";
@@ -32,13 +32,13 @@ import promisePayment from "@/services/promisePayment";
 
 export default function HomeScreen() {
   const [titulo, setTitulo] = useState([]);
-  const [data, setData] = useState<ContratoProps | any>([]);
-  const [isLoading, setIsloading] = useState(false);
-  const { height, width } = useWindowDimensions();
   const [list, setList] = useState<FaturaProps | any>([]);
-
-  const bottomSheetRef = useRef<BottomSheet>(null);
   const [icon, setIcon] = useState("copy-outline");
+  const [isLoading, setIsloading] = useState(false);
+
+  const [data, setData] = useState<ContratoProps | any>([]);
+  const { height, width } = useWindowDimensions();
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
   const { removeItem } = useAsyncStorage("@sgp");
 
@@ -184,21 +184,10 @@ export default function HomeScreen() {
           <Animatable.View className="flex-row gap-4" animation={"slideInLeft"}>
             <View className=" bg-white flex-1 rounded-3xl p-4 gap-3">
               <View>
-                <Text className="text-lg font-medium p-2">
-                  {titulo.filter(
-                    (item: FaturaProps) =>
-                      item.statusid === 1 &&
-                      new Date(item.vencimento) < new Date(),
-                  ).length <= 0
-                    ? "Nenhuma fatura em aberto"
-                    : "Você possui " +
-                    titulo.filter(
-                      (item: FaturaProps) =>
-                        item.statusid == 1 &&
-                        new Date(item.vencimento) <= new Date(),
-                    ).length +
-                    " fatura(s) em aberto"}
-                </Text>
+                <View className="flex-row items-center mx-2 gap-2">
+                  <Ionicons name="barcode-sharp" size={20} />
+                  <Text className="text-xl font-normal">Segunda via de Fatura</Text>
+                </View>
 
                 <FlatList
                   horizontal
@@ -216,6 +205,8 @@ export default function HomeScreen() {
                   )}
                   keyExtractor={(item: FaturaProps) => String(item.id)}
                   contentContainerStyle={{ gap: 5, margin: 5 }}
+                  ListEmptyComponent={() => (<Text className="font-light text-lime-600 text-lg ml-10 my-2 text-center">Nenhuma fatura em aberto 😉</Text>)}
+
                 />
               </View>
               {data.status?.trim() === "Suspenso" && (

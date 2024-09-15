@@ -1,13 +1,78 @@
 import { Button } from "@/src/components/Button";
 import { Input } from "@/src/components/Input";
 import { Ionicons } from "@expo/vector-icons";
-import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from '@react-native-picker/picker';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import typeOcurrence from "@/services/typeocurrence";
+import Toast from "react-native-toast-message";
+import createTicket from "@/services/createTicket";
+
+interface OcurrenceProps {
+    codigo: number
+    descricao: string
+}
 
 export default function Support() {
-    const [selectedValue, setSelectedValue] = useState("java");
+    const [selectedValue, setSelectedValue] = useState<number>(5);
+    const [ocurrence, setOcurrence] = useState([])
+    const [conteudo, setConteudo] = useState('');
+
+
+    const handleTypeOcurrence = async () => {
+        const response = await typeOcurrence();
+        setOcurrence(response);
+    }
+
+    const handleSaveOcurrange = async () => {
+
+        if (conteudo === '') {
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'O campo mensagem está vazio',
+                text1Style: { fontSize: 16 },
+                text2Style: { fontSize: 14 }
+            })
+            return;
+        }
+
+        try {
+            const response = await createTicket(conteudo, selectedValue)
+
+            if (response.status === 0) {
+                Toast.show({
+                    type: "success",
+                    text1: 'Chamado aberto com sucesso',
+                    text2: `Protocolo: ${response.protocolo}`,
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 14 },
+                    visibilityTime: 10000
+                })
+            }
+
+            if (response.status === 3) {
+                Toast.show({
+                    type: "error",
+                    text1: response.msg,
+                    text2: `Protocolo: ${response.protocolo}`,
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 14 },
+                    visibilityTime: 10000
+                })
+            }
+
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        handleTypeOcurrence();
+    }, [])
+
     return (
         <SafeAreaView style={{ flex: 1, padding: 16 }}>
             <KeyboardAvoidingView behavior="position">
@@ -24,22 +89,19 @@ export default function Support() {
                             selectedValue={selectedValue}
                             onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                         >
-                            <Picker.Item label="Java" value="java" />
-                            <Picker.Item label="JavaScript" value="js" />
-                            <Picker.Item label="Python" value="python" />
-                            <Picker.Item label="PHP" value="php" />
+                            {ocurrence.map((item: OcurrenceProps) => (<Picker.Item key={item.codigo} label={item.descricao} value={item.codigo} />))}
                         </Picker>
                     </View>
-                    <Input
-                        placeholder="Assunto"
-                    />
+
                     <Input
                         multiline={true}
-                        numberOfLines={4}
-                        style={{ textAlignVertical: 'top' }}
-                        placeholder="Motivo"
+                        numberOfLines={6}
+                        style={{ textAlignVertical: 'top', }}
+                        placeholder="Digite sua mensagem"
+                        onChangeText={setConteudo}
+                        value={conteudo}
                     />
-                    <Button icon="construct" title="Enviar" />
+                    <Button icon="construct" onPress={handleSaveOcurrange} title="Enviar" />
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>

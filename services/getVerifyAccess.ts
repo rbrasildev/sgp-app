@@ -9,7 +9,7 @@ export async function getVerifyAccess() {
         formdata.append("senha", '123456');
         formdata.append("contrato", dataAuth.contrato);
 
-        const requestOptions = {
+        const requestOptions : {} = {
             method: 'POST',
             body: formdata,
             redirect: 'follow'

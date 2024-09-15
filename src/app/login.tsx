@@ -1,7 +1,7 @@
 import Contracts from '@/src/components/Contracts/Contracts'
 import api from '@/services/api'
 
-import { useState, useRef} from 'react'
+import { useState, useRef } from 'react'
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { Image, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
@@ -11,6 +11,7 @@ import { Input } from '../components/Input';
 
 import { router } from 'expo-router';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 interface ContratoProps {
     contrato: number,
@@ -36,8 +37,18 @@ export default function login() {
         try {
             setIsloaded(true)
             const response = await api(cpfCnpj, '123456')
-            setContratoData(response.contratos)
 
+            if (!response.contratos) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Contrato não encontrado',
+                    text2: 'Verifique se seu CPF está correto',
+                    text1Style: { fontSize: 16 },
+                    text2Style: { fontSize: 14 }
+                })
+                return
+            }
+            setContratoData(response.contratos)
             if (response.contratos.length == 1) {
                 handleSaveData(response.contratos[0].cpfcnpj, response.contratos[0].contrato)
                 router.push('/(tabs)')
@@ -81,7 +92,7 @@ export default function login() {
                     placeholderTextColor={'#999'}
                     onChangeText={setCpfCnpj}
                     value={cpfCnpj}
-                      keyboardType='numeric'
+                    keyboardType='numeric'
                 />
 
                 <Button
@@ -97,7 +108,7 @@ export default function login() {
                 ref={bottomSheetRef}
                 snapPoints={[0.01, 284]}
             >
-                <Text className='p-2 text-2xl font-semibold m-4 text-gray-800'>Selecione um contrato 📑</Text>
+                <Text className='p-2 text-2xl font-light m-4 text-gray-800'>Selecione um contrato 📑</Text>
                 <BottomSheetFlatList className='p-4'
                     data={contratoData}
                     keyExtractor={(item) => String(item.contrato)}
