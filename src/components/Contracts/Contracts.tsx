@@ -1,16 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { router } from "expo-router";
-import { FlatList, TouchableOpacity, View, Text } from "react-native"
+import { TouchableOpacity, View, Text } from "react-native"
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { useState } from "react";
 
 
-type ContratoProps = {
-    contrato: number,
-    razaosocial: string;
-    planointernet: string;
-    cpfcnpj: string;
-}
+
+
 export default function Contracts({ item }: any) {
     const { setItem } = useAsyncStorage('@sgp')
 
@@ -29,7 +24,7 @@ export default function Contracts({ item }: any) {
     return (
         <TouchableOpacity
             onPress={() => handleSaveData(item.cpfcnpj, item.contrato)}
-            className=" bg-white p-4 my-1 rounded-2xl flex-row gap-6 shadow-sm border border-gray-100"
+            className=" bg-blue-100 p-4 my-1 rounded-2xl flex-row gap-6  border border-gray-100"
         >
             <View className="flex-row items-center">
                 <MaterialCommunityIcons size={32} color={'#f97316'} name='file-document' />
@@ -37,7 +32,7 @@ export default function Contracts({ item }: any) {
             </View>
             <View className="flex-1" >
                 <Text className="text-gray-600 font-bold" >{item.razaosocial}</Text>
-                <Text className="text-gray-600 font-semibold">{item.planointernet}</Text>
+                <Text className="text-gray-600 font-light">{item.planointernet}</Text>
             </View>
         </TouchableOpacity >
 

@@ -9,8 +9,6 @@ export default function TabLayout() {
 
   return (
     <>
-      <StatusBar backgroundColor='#333' />
-
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -39,6 +37,10 @@ export default function TabLayout() {
         <Tabs.Screen
           name='support'
           options={{
+            headerLeft: () => (<MaterialCommunityIcons name='headphones' size={20} color={'#ccc'} />),
+            headerStyle: { backgroundColor: '#0f172a' },
+            headerLeftContainerStyle: { paddingHorizontal: 16, marginHorizontal: -20 },
+            headerTitleStyle: { color: '#ccc' },
             title: 'Central de ajuda',
             headerShown: true,
             tabBarIcon: ({ color, focused }) => (

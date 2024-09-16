@@ -1,11 +1,11 @@
 import { Button } from "@/src/components/Button";
 import { Input } from "@/src/components/Input";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from '@react-native-picker/picker';
 import { useEffect, useState } from "react";
-import typeOcurrence from "@/services/typeocurrence";
+import typeOcurrence from "@/services/typeOcurrence";
 import Toast from "react-native-toast-message";
 import createTicket from "@/services/createTicket";
 
@@ -74,12 +74,12 @@ export default function Support() {
     }, [])
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 16 }}>
+        <SafeAreaView style={{ flex: 1, paddingHorizontal: 16 }}>
             <KeyboardAvoidingView behavior="position">
                 <ScrollView>
                     <View className="justify-center items-center">
                         <View className="rounded-full bg-slate-900 p-4">
-                            <Ionicons name="call-sharp" size={64} color={'#fff'} />
+                            <MaterialCommunityIcons name="headphones" size={64} color={'#fff'} />
                         </View>
                         <Text className="font-bold text-2xl my-2">Precisa de ajuda?</Text>
                     </View>

@@ -21,13 +21,12 @@ export interface FaturaProps {
 	codigo: string;
 	title: string;
 }
-
 export interface ContratoProps {
-	cpfcnpj: string
-	razaosocial: string
-	contrato: number
+	contrato: number;
+	razaosocial: string;
+	planointernet: string;
+	cpfcnpj: string;
 }
-
 export interface ExtratoProps {
 	ano: string;
 	list: [];

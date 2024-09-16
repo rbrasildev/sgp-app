@@ -44,7 +44,7 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView >
-      <StatusBar backgroundColor='#333' />
+      <StatusBar backgroundColor='#0f172a' />
       <View className='bg-gray-100 flex-1'>
         <InitialLayout />
         <Toast />
