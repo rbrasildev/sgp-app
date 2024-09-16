@@ -11,6 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import { Button } from '@/src/components/Button';
 import ContentLoader, { Rect } from 'react-content-loader/native'
 import { FaturaProps } from '@/src/types/SgpTypes';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -60,7 +61,11 @@ export default function invoice() {
 
             await Linking.openURL(url);
         } else {
-            console.error(`Não é possível abrir o link: ${url}`);
+            Toast.show({
+                type: 'error',
+                text1: `Não é possível abrir o link: ${url}`
+            })
+
         }
     };
 
@@ -93,25 +98,25 @@ export default function invoice() {
 
     if (isLoading) {
         return (
-            <View className='flex-1 p-4 mt-6'>
+            <View className='flex-1'>
                 <ContentLoader
                     backgroundColor='#ccc'
                     foregroundColor='#ddd'
-                    viewBox={`0 0 ${width} ${height}`}
+                    viewBox={`4 4 ${width} ${height}`}
                 >
-                    <Rect x="10" y="43" rx="8" ry="8" width="350" height="60" />
-                    <Rect x="10" y="150" rx="8" ry="8" width="350" height="100" />
-                    <Rect x="10" y="260" rx="8" ry="8" width="350" height="100" />
-                    <Rect x="10" y="370" rx="8" ry="8" width="350" height="100" />
-                    <Rect x="10" y="480" rx="8" ry="8" width="350" height="100" />
-                    <Rect x="10" y="590" rx="8" ry="8" width="350" height="100" />
+                    <Rect x="0" y="2" rx="16" ry="16" width="400" height="60" />
+                    <Rect x="0" y="100" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="230" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="360" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="490" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="620" rx="16" ry="16" width="400" height="120" />
                 </ContentLoader>
             </View>
         )
     }
 
     const CardFaturasPagas = ({ item }: FaturaProps | any) => (
-        <Animatable.View animation={'slideInRight'} className='rounded-2xl my-1 p-4 bg-white shadow'>
+        <Animatable.View animation={'slideInRight'} className='rounded-2xl mt-1 p-4 bg-white shadow'>
             <Text className='font-medium text-gray-500 text-xl'>
                 Fatura de {new Date(item.vencimento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
 
@@ -138,36 +143,31 @@ export default function invoice() {
 
     return (
         <SafeAreaView>
-
-            <View>
+            <View className='mt-[-40px]'>
                 <Tabs defaultValue="abertas">
-                    <View className='bg-slate-900 py-10 px-4'>
-                        <View className='flex-row gap-2'>
-                            <MaterialCommunityIcons color={'#fff'} name='credit-card' size={32} />
-                            <Text className='text-white text-4xl mb-6 font-extrabold'>Faturas</Text>
-                        </View>
+                    <View className='bg-slate-900 p-4'>
                         <TabsList className='rounded-2xl bg-slate-200'>
                             <TabsTrigger value="abertas" id="abertas" title="Em aberto" />
                             <TabsTrigger value='pagas' id="pagas" title="Pagas" />
                         </TabsList>
                     </View>
-                    <TabsContent style={{ marginBottom: 510 }} value="abertas">
+                    <TabsContent value="abertas">
                         <FlatList
                             data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
                             renderItem={CardFaturaAbertas}
                             keyExtractor={(item: FaturaProps) => String(item.id)}
-                            contentContainerClassName='px-2'
+                            contentContainerClassName='px-2 pb-[240] py-2'
                             bouncesZoom
                             ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
 
                         />
                     </TabsContent>
-                    <TabsContent style={{ marginBottom: 510 }} value="pagas">
+                    <TabsContent value="pagas">
                         <FlatList
                             data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
                             renderItem={CardFaturasPagas}
                             keyExtractor={(item: FaturaProps) => String(item.id)}
-                            contentContainerClassName='px-2'
+                            contentContainerClassName='px-2 pb-[240] py-2'
                             bouncesZoom
                             ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
                         />
@@ -177,13 +177,16 @@ export default function invoice() {
             <BottomSheet
                 ref={bottomSheetRef}
                 index={0}
-                snapPoints={[0.01, 450]}
+                snapPoints={[0.01, 350]}
                 keyboardBehavior="fillParent"
                 backgroundStyle={{ backgroundColor: '#fff', elevation: 1, borderWidth: 1, borderColor: '#ddd' }}
 
             >
-                <View className='p-8'>
-                    <Text className='py-3 text-lg font-medium'>{list.title}</Text>
+                <View className='px-6'>
+                    <View className='flex-row justify-between items-center pb-4'>
+                        <Text className='text-lg font-medium'>{list.title}</Text>
+                        <TouchableOpacity><MaterialCommunityIcons onPress={() => bottomSheetRef.current?.close()} name='close' size={20} /></TouchableOpacity>
+                    </View>
                     <BottomSheetTextInput multiline={true} numberOfLines={3} className='bg-slate-100 rounded-2xl p-3 text-center' value={list.codigo} />
                     <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={icon} title='Copiar' />
                 </View>

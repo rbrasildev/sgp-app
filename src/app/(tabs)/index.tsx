@@ -67,11 +67,10 @@ export default function HomeScreen() {
       const data = await api(AuthUser.cpfcnpj, "123456");
       const invoice = await getInvoices();
 
-      const filtered = data.contratos.filter(
-        (item: ContratoProps) => item.contrato == AuthUser.contrato,
-      );
+      if (data.contratos) {
+        setData(data.contratos.filter((item: ContratoProps) => item.contrato == AuthUser.contrato)[0]);
+      }
 
-      setData(filtered[0]);
       setTitulo(invoice.faturas);
     } catch (error) {
       console.log(error);
@@ -116,13 +115,14 @@ export default function HomeScreen() {
         <ContentLoader
           backgroundColor="#ccc"
           foregroundColor="#ddd"
-          viewBox={`0 0 ${width} ${height}`}
+          viewBox={`4 4 ${width} ${height}`}
         >
-          <Rect x="90" y="10" rx="8" ry="8" width="200" height="100" />
-          <Rect x="20" y="120" rx="8" ry="8" width="300" height="25" />
-          <Circle cx="340" cy="130" r="15" />
-          <Rect x="20" y="155" rx="8" ry="8" width="345" height="100" />
-          <Rect x="20" y="265" rx="8" ry="8" width="345" height="300" />
+          {/* <Rect x="90" y="10" rx="8" ry="8" width="200" height="100" /> */}
+          <Rect x="4" y="118" rx="10" ry="10" width="344" height="25" />
+          <Circle cx="370" cy="132" r="15" />
+          <Rect x="0" y="155" rx="22" ry="22" width="390" height="100" />
+          <Rect x="0" y="265" rx="22" ry="22" width="390" height="270" />
+          <Rect x="0" y="545" rx="22" ry="22" width="390" height="100" />
         </ContentLoader>
       </View>
     );
@@ -205,7 +205,7 @@ export default function HomeScreen() {
                   )}
                   keyExtractor={(item: FaturaProps) => String(item.id)}
                   contentContainerStyle={{ gap: 5, margin: 5 }}
-                  ListEmptyComponent={() => (<Text className="font-light text-lime-600 text-lg ml-10 my-2 text-center">Nenhuma fatura em aberto 😉</Text>)}
+                  ListEmptyComponent={() => (<Text className="font-light text-lime-600 text-lg ml-10 my-2 text-center">Nenhuma fatura em aberta 😉</Text>)}
 
                 />
               </View>

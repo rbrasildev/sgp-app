@@ -7,11 +7,13 @@ import { Image, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable';
 
 import { Button } from '@/src/components/Button';
-import { Input } from '../components/Input';
+
 
 import { router } from 'expo-router';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
+
+import { InputLabelFixed } from '../components/InputLabelFixed';
 
 interface ContratoProps {
     contrato: number,
@@ -48,7 +50,9 @@ export default function login() {
                 })
                 return
             }
+
             setContratoData(response.contratos)
+
             if (response.contratos.length == 1) {
                 handleSaveData(response.contratos[0].cpfcnpj, response.contratos[0].contrato)
                 router.push('/(tabs)')
@@ -78,21 +82,23 @@ export default function login() {
 
     return (
         <View
-            className='justify-center flex-1 bg-gray-900 p-8'
+            className='flex-1  bg-gray-900 p-8'
         >
-            <View className='absolute top-20 left-0 right-0 items-center'>
-                <Image className='h-24 w-48' source={require('@/assets/images/logo_white.png')} />
+            <View className='items-center h-1/6'>
+                <Image className='h-[117] w-64' source={require('@/assets/images/logo_white.png')} />
             </View>
             <Animatable.View
                 animation="slideInLeft"
+                className='h-4/6 justify-center'
             >
-                <Text className='text-gray-500 font-semibold text-lg'>Login</Text>
-                <Input
+
+                <InputLabelFixed
                     placeholder='Digite CPF/CNPJ'
                     placeholderTextColor={'#999'}
                     onChangeText={setCpfCnpj}
                     value={cpfCnpj}
                     keyboardType='numeric'
+                    label='CPF/CNPJ'
                 />
 
                 <Button
@@ -100,7 +106,7 @@ export default function login() {
                     onPress={handleGetDataUser}
                     isLoading={isLoaded}
                     title='Entrar'
-                    style={{ padding: 22 }}
+                    style={{ padding: 20 }}
                 />
             </Animatable.View>
 

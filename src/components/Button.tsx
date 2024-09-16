@@ -13,7 +13,7 @@ export function Button({
   ...rest }: ButtonProps) {
   return (
     <TouchableOpacity
-      className="flex-row w-full items-center justify-center gap-2 bg-orange-500 rounded-2xl p-4"
+      className="flex-row w-full items-center justify-center gap-2 bg-orange-500 rounded-2xl p-5"
       disabled={isLoading}
       activeOpacity={0.8}
       {...rest}>

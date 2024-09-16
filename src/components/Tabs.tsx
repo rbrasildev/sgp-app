@@ -85,7 +85,7 @@ function TabsContent({ value, className, ...props }: TabsContentProps) {
     return (
       <View
         className={cn(
-          'mt-2 px- py-4 rounded-xl',
+          'rounded-xl',
           className
         )}
         {...props}
