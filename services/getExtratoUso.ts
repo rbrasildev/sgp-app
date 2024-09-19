@@ -11,7 +11,7 @@ export default async function extrauso(date: Date) {
 		formdata.append("ano", String(date.getFullYear()));
 		formdata.append("mes", String(date.getMonth()));
 
-		const requestOptions = {
+		const requestOptions: {} = {
 			method: "POST",
 			body: formdata,
 			redirect: "follow",

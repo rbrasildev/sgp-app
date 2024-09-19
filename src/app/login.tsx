@@ -84,8 +84,8 @@ export default function login() {
         <View
             className='flex-1  bg-gray-900 p-8'
         >
-            <View className='items-center h-1/6'>
-                <Image className='h-[117] w-64' source={require('@/assets/images/logo_white.png')} />
+            <View className='items-center'>
+                <Image className='h-[117] w-64 mt-10' source={require('@/assets/images/logo_white.png')} />
             </View>
             <Animatable.View
                 animation="slideInLeft"
@@ -113,9 +113,10 @@ export default function login() {
             <BottomSheet
                 ref={bottomSheetRef}
                 snapPoints={[0.01, 284]}
+                backgroundStyle={{ backgroundColor: '#000' }}
             >
-                <Text className='p-2 text-2xl font-light m-4 text-gray-800'>Selecione um contrato 📑</Text>
-                <BottomSheetFlatList className='p-4'
+                <Text className='uppercase font-medium text-center py-2 text-slate-500 '>Selecione um contrato</Text>
+                <BottomSheetFlatList className='px-4'
                     data={contratoData}
                     keyExtractor={(item) => String(item.contrato)}
                     renderItem={({ item }) => <Contracts item={item} />}

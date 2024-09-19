@@ -10,7 +10,7 @@ const CardFaturaAbertas = ({ item, ...rest }: TouchableOpacityProps | any) => {
 
 
     return (
-        <View className='rounded-2xl my-1 p-4 bg-orange-50 shadow-sm border border-orange-300/50'>
+        <View className='rounded-2xl my-1 p-4 bg-slate-200 border border-slate-300'>
             <View className="flex-row items-center gap-2">
                 <MaterialCommunityIcons name="barcode" size={20} />
                 <Text className='font-semibold text-gray-500 text-lg'>

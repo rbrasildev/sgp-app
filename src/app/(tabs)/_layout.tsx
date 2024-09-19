@@ -43,6 +43,21 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
+          name='consumption'
+          options={{
+            headerLeft: () => (<MaterialCommunityIcons name='barcode' size={20} color={'#ccc'} />),
+            headerShown: true,
+            headerStyle: { backgroundColor: '#0f172a' },
+            headerLeftContainerStyle: { paddingHorizontal: 16, marginHorizontal: -20 },
+            headerTitleStyle: { color: '#ccc' },
+            title: 'Consumo',
+            tabBarLabelStyle: { fontWeight: 'bold' },
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialCommunityIcons size={28} name={focused ? 'chart-arc' : 'chart-arc'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name='speedtest'
           options={{
             headerLeft: () => (<MaterialCommunityIcons name='speedometer' size={20} color={'#ccc'} />),
