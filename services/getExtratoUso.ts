@@ -1,6 +1,7 @@
 import auth from "@/src/constants/auth";
 
 export default async function extrauso(date: Date) {
+
 	try {
 		const dataAuth = await auth();
 

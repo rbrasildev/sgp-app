@@ -112,7 +112,7 @@ export default function login() {
 
             <BottomSheet
                 ref={bottomSheetRef}
-                snapPoints={[0.01, 284]}
+                snapPoints={[0.01, '50%', '100%']}
                 backgroundStyle={{ backgroundColor: '#000' }}
             >
                 <Text className='uppercase font-medium text-center py-2 text-slate-500 '>Selecione um contrato</Text>

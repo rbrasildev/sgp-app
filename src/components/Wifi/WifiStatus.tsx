@@ -42,19 +42,19 @@ const WifiStatus = () => {
 	}
 
 	return (
-		<View className="flex-row items-center rounded-2xl my-4 gap-2">
+		<View className="items-center">
 			{wifiStatus.status === 1 ? (
 				<>
-					<MaterialCommunityIcons color={"green"} size={28} name="wifi-check" />
+					<MaterialCommunityIcons color={"green"} size={32} name="router-wireless" />
 					<View>
-						<Text className="font-medium text-slate-300 text-lg">Online</Text>
+						<Text className="font-light text-sm text-slate-300">Online</Text>
 					</View>
 				</>
 			) : (
 				<>
 					<MaterialCommunityIcons color={"red"} size={28} name="wifi-off" />
 					<View>
-						<Text className="font-medium text-slate-300 text-lg">Offline</Text>
+						<Text className="font-light text-slate-300">Offline</Text>
 					</View>
 				</>
 			)}

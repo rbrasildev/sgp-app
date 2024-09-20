@@ -129,23 +129,21 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#0f172a', paddingHorizontal: 20 }}>
-      <View className="justify-center items-center">
-        <Image
-          className="w-[134px] h-20 mt-6"
-          source={require("@/assets/images/logo_white.png")}
-        />
+    <View className="flex-1 bg-slate-900 px-4">
+
+      <View className="flex-row items-center my-4 gap-2 border p-2 border-slate-400 rounded-2xl">
+        <View className="p-4 bg-slate-400 rounded-full justify-center items-center">
+          <MaterialCommunityIcons name="account" color={'#fff'} size={32} />
+        </View>
+
+        <View className="justify-center flex-wrap">
+          <Text className="text-slate-100 font-semibold antialiased mb-[-5] max-w-64">{data.razaosocial}</Text>
+          <Text className="font-light  text-slate-50">{data.planointernet}</Text>
+          <Text className="font-thin mt-[-5px] text-slate-50">Vencimento todo dia {data.vencimento}</Text>
+        </View>
+        <WifiStatus />
       </View>
-      <View className="flex-row items-center justify-between mt-4 gap-2">
-        <Text className="text-slate-100 text-wrap font-semibold text-xl">
-          Olá, {data.razaosocial}
-        </Text>
-        <TouchableOpacity onPress={logout}>
-          <MaterialCommunityIcons name="logout" size={28} color={"#fff"} />
-        </TouchableOpacity>
-      </View>
-    
-      <WifiStatus />
+
 
       <View className="bg-slate-50 p-4 shadow-md  rounded-3xl flex-row justify-between">
         <View className="flex-row items-center gap-2">
@@ -272,6 +270,6 @@ export default function HomeScreen() {
           />
         </View>
       </BottomSheet>
-    </SafeAreaView>
+    </View>
   );
 }
