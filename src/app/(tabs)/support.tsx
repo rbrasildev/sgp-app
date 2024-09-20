@@ -101,7 +101,7 @@ export default function Support() {
                         onChangeText={setConteudo}
                         value={conteudo}
                     />
-                    <Button icon="construct" onPress={handleSaveOcurrange} title="Enviar" />
+                    <Button icon="envelope" onPress={handleSaveOcurrange} title="Enviar" />
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>

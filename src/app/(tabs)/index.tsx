@@ -33,7 +33,6 @@ import promisePayment from "@/services/promisePayment";
 export default function HomeScreen() {
   const [titulo, setTitulo] = useState([]);
   const [list, setList] = useState<FaturaProps | any>([]);
-  const [icon, setIcon] = useState("copy-outline");
   const [isLoading, setIsloading] = useState(false);
 
   const [data, setData] = useState<ContratoProps | any>([]);
@@ -54,10 +53,12 @@ export default function HomeScreen() {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(list.codigopix);
-    setIcon("copy");
-    setTimeout(() => {
-      setIcon("copy-outline");
-    }, 2000);
+    Toast.show({
+      type: 'success',
+      text1: 'Pix copiado para área de transferência',
+      text1Style: { fontSize: 16, fontWeight: 300 }
+
+    })
   };
 
   const handleContrato = async () => {
@@ -262,7 +263,7 @@ export default function HomeScreen() {
             <Button
               style={{ marginVertical: 10 }}
               onPress={() => copyToClipboard()}
-              icon={icon}
+              icon={'copy'}
               title="Copiar"
             />
           </View>

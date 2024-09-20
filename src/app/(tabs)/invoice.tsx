@@ -17,7 +17,6 @@ import Toast from 'react-native-toast-message';
 
 
 export default function invoice() {
-    const [icon, setIcon] = useState('copy-outline')
     const [list, setList] = useState<[] | any>([])
     const [titulo, setTitulo] = useState([])
     const [isLoading, setIsloading] = useState(false)
@@ -28,10 +27,6 @@ export default function invoice() {
 
     const copyToClipboard = async () => {
         await Clipboard.setStringAsync(list.codigo);
-        setIcon('copy')
-        setTimeout(() => {
-            setIcon('copy-outline')
-        }, 2000)
     }
 
     const openBottomSheet = (item: []) => {
@@ -188,7 +183,7 @@ export default function invoice() {
                         <TouchableOpacity><MaterialCommunityIcons onPress={() => bottomSheetRef.current?.close()} name='close' size={20} /></TouchableOpacity>
                     </View>
                     <BottomSheetTextInput multiline={true} numberOfLines={3} className='bg-slate-100 rounded-2xl p-3 text-center' value={list.codigo} />
-                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={icon} title='Copiar' />
+                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={'copy'} title='Copiar' />
                 </View>
             </BottomSheet>
         </SafeAreaView>

@@ -32,7 +32,8 @@ const CardFaturaAbertas = ({ item, ...rest }: TouchableOpacityProps | any) => {
                     </View>
                 )}
             </View>
-            <Button {...rest} className="bg-green-500 flex-row p-2 m-2 rounded-xl gap-1 justify-center" icon="barcode-outline" title="Pagar" />
+
+            <Button {...rest} className="bg-green-500 flex-row p-4 rounded-xl gap-2 justify-center" icon="pix" title="Pix copia e cola" />
         </View>
     )
 }

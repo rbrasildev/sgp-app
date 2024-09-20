@@ -102,11 +102,10 @@ export default function login() {
                 />
 
                 <Button
-                    icon='enter'
                     onPress={handleGetDataUser}
                     isLoading={isLoaded}
                     title='Entrar'
-                    style={{ padding: 20 }}
+                    style={{ padding: 16 }}
                 />
             </Animatable.View>
 
