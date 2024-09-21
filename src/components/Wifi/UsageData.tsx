@@ -10,7 +10,7 @@ export function UsageData() {
 	const hanldeExtratoUso = async () => {
 		setIsloading(true)
 		try {
-			const response = await extrauso(new Date());
+			const response = await extrauso(new Date(new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate()));
 			setExtratoData(response);
 		} catch (error) {
 			console.log(error);
