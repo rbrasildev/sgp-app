@@ -17,6 +17,7 @@ import Toast from 'react-native-toast-message';
 
 
 export default function invoice() {
+    const [icon, setIcon] = useState('copy-outline')
     const [list, setList] = useState<[] | any>([])
     const [titulo, setTitulo] = useState([])
     const [isLoading, setIsloading] = useState(false)
@@ -27,6 +28,10 @@ export default function invoice() {
 
     const copyToClipboard = async () => {
         await Clipboard.setStringAsync(list.codigo);
+        setIcon('copy')
+        setTimeout(() => {
+            setIcon('copy-outline')
+        }, 2000)
     }
 
     const openBottomSheet = (item: []) => {
@@ -93,20 +98,17 @@ export default function invoice() {
 
     if (isLoading) {
         return (
-            <View className='flex-1'>
-                <ContentLoader
-                    backgroundColor='#ccc'
-                    foregroundColor='#ddd'
-                    viewBox={`4 4 ${width} ${height}`}
-                >
-                    <Rect x="0" y="2" rx="16" ry="16" width="400" height="60" />
-                    <Rect x="0" y="100" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="230" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="360" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="490" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="620" rx="16" ry="16" width="400" height="120" />
-                </ContentLoader>
-            </View>
+            <ContentLoader
+                backgroundColor='#ccc'
+                foregroundColor='#ddd'
+                viewBox={`4 4 ${width} ${height}`}
+            >
+                <Rect x="0" y="100" rx="16" ry="16" width="400" height="120" />
+                <Rect x="0" y="230" rx="16" ry="16" width="400" height="120" />
+                <Rect x="0" y="360" rx="16" ry="16" width="400" height="120" />
+                <Rect x="0" y="490" rx="16" ry="16" width="400" height="120" />
+                <Rect x="0" y="620" rx="16" ry="16" width="400" height="120" />
+            </ContentLoader>
         )
     }
 
@@ -137,38 +139,35 @@ export default function invoice() {
     )
 
     return (
-        <SafeAreaView>
-            <View className='mt-[-40px]'>
-                <Tabs defaultValue="abertas">
-                    <View className='bg-slate-900 p-4'>
-                        <TabsList className='rounded-2xl bg-slate-200'>
-                            <TabsTrigger value="abertas" id="abertas" title="Em aberto" />
-                            <TabsTrigger value='pagas' id="pagas" title="Pagas" />
-                        </TabsList>
-                    </View>
-                    <TabsContent value="abertas">
-                        <FlatList
-                            data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
-                            renderItem={CardFaturaAbertas}
-                            keyExtractor={(item: FaturaProps) => String(item.id)}
-                            contentContainerClassName='px-2 pb-[240] py-2'
-                            bouncesZoom
-                            ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
+        <View className='px-4'>
+            <Tabs defaultValue="abertas">
+                <TabsList className='rounded-2xl bg-slate-200 my-1'>
+                    <TabsTrigger value="abertas" id="abertas" title="Em aberto" />
+                    <TabsTrigger value='pagas' id="pagas" title="Pagas" />
+                </TabsList>
+                <TabsContent value="abertas">
+                    <FlatList
+                        data={titulo.filter((item: FaturaProps) => item.statusid == 1)}
+                        renderItem={CardFaturaAbertas}
+                        keyExtractor={(item: FaturaProps) => String(item.id)}
+                        contentContainerClassName='pb-[150]'
+                        bouncesZoom
+                        ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
 
-                        />
-                    </TabsContent>
-                    <TabsContent value="pagas">
-                        <FlatList
-                            data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
-                            renderItem={CardFaturasPagas}
-                            keyExtractor={(item: FaturaProps) => String(item.id)}
-                            contentContainerClassName='px-2 pb-[240] py-2'
-                            bouncesZoom
-                            ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
-                        />
-                    </TabsContent>
-                </Tabs>
-            </View>
+                    />
+                </TabsContent>
+                <TabsContent value="pagas">
+                    <FlatList
+                        data={titulo.filter((item: FaturaProps) => item.statusid == 2)}
+                        renderItem={CardFaturasPagas}
+                        keyExtractor={(item: FaturaProps) => String(item.id)}
+                        contentContainerClassName=' pb-[150]'
+                        bouncesZoom
+                        ListEmptyComponent={() => (<Text className='text-center mt-[50%] font-light'>Nenhuma fatura aberta</Text>)}
+                    />
+                </TabsContent>
+            </Tabs>
+
             <BottomSheet
                 ref={bottomSheetRef}
                 index={0}
@@ -183,9 +182,9 @@ export default function invoice() {
                         <TouchableOpacity><MaterialCommunityIcons onPress={() => bottomSheetRef.current?.close()} name='close' size={20} /></TouchableOpacity>
                     </View>
                     <BottomSheetTextInput multiline={true} numberOfLines={3} className='bg-slate-100 rounded-2xl p-3 text-center' value={list.codigo} />
-                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={'copy'} title='Copiar' />
+                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={icon} title='Copiar' />
                 </View>
             </BottomSheet>
-        </SafeAreaView>
+        </View>
     )
 }

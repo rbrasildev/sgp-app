@@ -35,3 +35,12 @@ export interface ExtratoProps {
 	login: string;
 	total: number;
 }
+
+export interface ConsumptionProps {
+	list: []
+	dataini: Date
+	datafim?: Date
+	download: number
+	upload: number
+	total: number;
+}

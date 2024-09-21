@@ -1,8 +1,9 @@
-import { Tabs } from 'expo-router';
+import { router, Tabs } from 'expo-router';
 import React from 'react';
 import { TabBarIcon } from '@/src/components/navigation/TabBarIcon';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+import { Image, Text, TouchableOpacity } from 'react-native';
 
 export default function TabLayout() {
 
@@ -14,11 +15,28 @@ export default function TabLayout() {
         screenOptions={{
           headerShown: false,
           tabBarInactiveTintColor: '#666',
-          tabBarActiveTintColor: '#333',
+          tabBarActiveTintColor: '#ccc',
+          tabBarStyle: { backgroundColor: '#0f172b', borderWidth: 0, borderColor: 'transparent', paddingBottom: 5 }
         }}>
         <Tabs.Screen
           name="index"
           options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: '#0f172a' },
+            headerLeftContainerStyle: { paddingHorizontal: 20 },
+            headerRightContainerStyle: { paddingHorizontal: 20 },
+            headerLeft: () => (
+              <Image className='h-[28px] w-16' source={require('@/assets/images/logo_white.png')} />
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                className='flex-row items-center gap-1'
+                onPress={() => router.push('/login')}
+              >
+                <Text className='font-normal text-slate-200'>Sair</Text>
+                <MaterialCommunityIcons name="logout" size={28} color={"#ccc"} />
+              </TouchableOpacity>
+            ),
             title: 'Home',
             tabBarLabelStyle: { fontWeight: 'bold' },
             tabBarIcon: ({ color, focused }) => (
@@ -39,6 +57,21 @@ export default function TabLayout() {
             tabBarLabelStyle: { fontWeight: 'bold' },
             tabBarIcon: ({ color, focused }) => (
               <MaterialCommunityIcons size={28} name={focused ? 'barcode-scan' : 'barcode-scan'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name='consumption'
+          options={{
+            headerLeft: () => (<MaterialCommunityIcons name='chart-line' size={20} color={'#ccc'} />),
+            headerShown: true,
+            headerStyle: { backgroundColor: '#0f172a' },
+            headerLeftContainerStyle: { paddingHorizontal: 16, marginHorizontal: -20 },
+            headerTitleStyle: { color: '#ccc' },
+            title: 'Consumo',
+            tabBarLabelStyle: { fontWeight: 'bold' },
+            tabBarIcon: ({ color, focused }) => (
+              <MaterialCommunityIcons size={28} name={focused ? 'chart-line' : 'chart-line'} color={color} />
             ),
           }}
         />
@@ -75,7 +108,7 @@ export default function TabLayout() {
             ),
           }}
         />
-      </Tabs>
+      </Tabs >
     </>
   );
 }

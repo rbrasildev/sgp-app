@@ -1,5 +1,16 @@
-import { isLoaded, useFonts } from 'expo-font';
-import { router, Slot, Stack } from 'expo-router';
+import {
+  useFonts,
+  Poppins_100Thin,
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+  Poppins_900Black
+} from '@expo-google-fonts/poppins';
+
+import { router, Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
@@ -15,7 +26,14 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
 
   const [loaded] = useFonts({
-    SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
+    Poppins_100Thin,
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Poppins_800ExtraBold,
+    Poppins_900Black
   });
 
   useEffect(() => {

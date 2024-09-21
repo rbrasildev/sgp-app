@@ -1,6 +1,7 @@
 import auth from "@/src/constants/auth";
 
 export default async function extrauso(date: Date) {
+
 	try {
 		const dataAuth = await auth();
 
@@ -11,7 +12,7 @@ export default async function extrauso(date: Date) {
 		formdata.append("ano", String(date.getFullYear()));
 		formdata.append("mes", String(date.getMonth()));
 
-		const requestOptions = {
+		const requestOptions: {} = {
 			method: "POST",
 			body: formdata,
 			redirect: "follow",
