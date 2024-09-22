@@ -74,17 +74,17 @@ export default function Support() {
     }, [])
 
     return (
-        <SafeAreaView style={{ flex: 1, paddingHorizontal: 16 }}>
+        <View className="flex-1 p-4 bg-slate-900">
             <KeyboardAvoidingView behavior="position">
                 <ScrollView>
                     <View className="justify-center items-center">
-                        <View className="rounded-full bg-slate-900 p-4">
+                        <View className="rounded-full bg-slate-600 p-4">
                             <MaterialCommunityIcons name="headphones" size={64} color={'#fff'} />
                         </View>
-                        <Text className="font-bold text-2xl my-2">Precisa de ajuda?</Text>
+                        <Text className="font-bold text-slate-300 text-2xl my-2">Precisa de ajuda?</Text>
                     </View>
 
-                    <View className="bg-white rounded-2xl border border-orange-100">
+                    <View className="bg-slate-600 rounded-2xl">
                         <Picker
                             selectedValue={selectedValue}
                             onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
@@ -96,14 +96,15 @@ export default function Support() {
                     <Input
                         multiline={true}
                         numberOfLines={6}
-                        style={{ textAlignVertical: 'top', }}
+                        style={{ textAlignVertical: 'top', backgroundColor:'#475569', borderWidth:0, color:'#ccc' }}
+                        placeholderTextColor={'#cccc'}
                         placeholder="Digite sua mensagem"
                         onChangeText={setConteudo}
                         value={conteudo}
                     />
-                    <Button icon="envelope" onPress={handleSaveOcurrange} title="Enviar" />
+                    <Button style={{padding:18}} icon="envelope" onPress={handleSaveOcurrange} title="Enviar" />
                 </ScrollView>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
     )
 }

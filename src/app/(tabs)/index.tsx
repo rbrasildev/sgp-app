@@ -108,17 +108,17 @@ export default function HomeScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 p-4 mt-6">
+      <View className="flex-1 px-2 bg-slate-900">
         <ContentLoader
-          backgroundColor="#ccc"
+          backgroundColor="#334155"
           foregroundColor="#ddd"
           viewBox={`4 4 ${width} ${height}`}
         >
-          <Rect x="4" y="118" rx="10" ry="10" width="344" height="25" />
-          <Circle cx="370" cy="132" r="15" />
-          <Rect x="0" y="155" rx="22" ry="22" width="390" height="100" />
-          <Rect x="0" y="265" rx="22" ry="22" width="390" height="270" />
-          <Rect x="0" y="545" rx="22" ry="22" width="390" height="100" />
+          <Rect x="0" y="04" rx="22" ry="22" width="400" height="100" />
+          <Rect x="0" y="120" rx="22" ry="22" width="400" height="100" />
+          <Rect x="0" y="235" rx="15" ry="15" width="250" height="40" />
+          <Rect x="0" y="290" rx="22" ry="22" width="400" height="270" />
+          <Rect x="0" y="575" rx="22" ry="22" width="150" height="100" />
         </ContentLoader>
       </View>
     );

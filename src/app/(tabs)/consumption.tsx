@@ -2,17 +2,19 @@ import extrauso from '@/services/getExtratoUso';
 import { convertBytes, convertDate } from '@/src/constants/convertBytes';
 import { ConsumptionProps, ExtratoProps } from '@/src/types/SgpTypes';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-
+import * as Animatable from 'react-native-animatable';
 import { Button } from '@/src/components/Button';
 
 export default function Consumption() {
     const [consumo, setConsumo] = useState<ConsumptionProps | null>(null);
+    const [isLoading, setIsloading] = useState(false)
     const [isOpen, setIsOpen] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const animatableRef = useRef(null);
 
     const increaseYear = () => setSelectedYear((prev) => prev + 1);
     const decreaseYear = () => setSelectedYear((prev) => prev - 1);
@@ -44,29 +46,52 @@ export default function Consumption() {
         });
     };
     function selectMonth(mes: number) {
-        setIsOpen(false);
         setSelectedMonth(mes);
     }
 
     const handleConsumption = async () => {
         try {
+            setIsloading(true)
             const fullDate = new Date(selectedYear, selectedMonth + 1, 1);
             const response = await extrauso(fullDate);
             setConsumo(response);
         } catch (error) {
             console.error('Erro ao buscar o consumo:', error);
+        } finally {
+            setIsloading(false)
         }
     };
 
     useEffect(() => {
         handleConsumption();
-    }, [selectedMonth]);
+    }, [selectedMonth, animatableRef]);
+
+    const closeWithAnimation = () => {
+        if (animatableRef.current) {
+            animatableRef.current.fadeOutUp(100).then(() => { 
+                openWithAnimation
+                setIsOpen(false);
+            });
+        }
+    };
+
+    const openWithAnimation = () => {
+        if (animatableRef.current) {
+            animatableRef.current.fadeOutUp(3000).then(() => {
+                setIsOpen(false); 
+            });
+        }
+    };
 
     return (
         <View className='px-4 flex-1 bg-slate-900'>
             <Button style={{ borderWidth: 1, borderColor: '#f97316' }} onPress={() => setIsOpen(true)} icon='calendar' title='Selecione um mês' />
             {isOpen && (
-                <View className='justify-center border border-slate-200/75 rounded-3xl mt-1 p-2'>
+                <Animatable.View
+                    ref={animatableRef}
+                    animation="slideInDown" 
+                    duration={300}       
+                    className='justify-center  rounded-3xl mt-1 p-2'>
                     <View className='flex-row justify-between my-6'>
                         <TouchableOpacity onPress={decreaseYear}>
                             <Text className='text-slate-200'>
@@ -80,51 +105,64 @@ export default function Consumption() {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View className='justify-end flex-row flex-wrap gap-2 mb-4'>{renderMonths()}</View>
+                    <View className='justify-between flex-row flex-wrap gap-1 mb-4'>{renderMonths()}</View>
                     <View className='flex-row gap-2 justify-end mt-2'>
                         <TouchableOpacity
+                            onPress={() => closeWithAnimation()}
                             className='bg-orange-500 px-6 py-2 rounded-2xl'>
-
-                            <Text className='font-semibold mt-1 text-slate-50'>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            className='bg-slate-200 px-6 py-2 rounded-2xl'>
-                            <Text className='font-semibold mt-1'>Ok</Text>
+                            <Text className='font-semibold mt-1 text-slate-50'>OK</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </Animatable.View>
             )}
+            <Animatable.View
+                ref={animatableRef}
+                animation="slideInUp"
+                duration={300}
+            >
+                {consumo && (
+                    <View className='border border-slate-500 my-2 p-4 rounded-2xl'>
+                        <Text className='font-light text-xl text-slate-100'>Consumo mês de {months[selectedMonth]}</Text>
+                        <Text className='font-bold text-3xl text-slate-500'>{convertBytes(consumo.total)}</Text>
+                    </View>
+                )}
+                {isLoading ? (<View className='flex-1 items-center justify-center mt-4'><ActivityIndicator size={32} color={'#fff'} /></View>) :
 
-            {consumo && (
-                <View className='bg-slate-200 my-2 p-4 rounded-2xl'>
-                    <Text className='font-light'>Consumo mês de {months[selectedMonth]}</Text>
-                    <Text className='font-bold text-3xl text-slate-800'>{convertBytes(consumo.total)}</Text>
-                </View>
-            )}
-
-            {consumo?.list && (
-                <FlatList
-                    data={consumo.list}
-                    keyExtractor={(item: ExtratoProps | any) => item.dataini}
-                    renderItem={({ item }) => (
-                        <View className='p-4 rounded-2xl mb-2'>
-                            <Text className='text-slate-100 font-bold text-lg'>
-                                {`Período de ${convertDate(item.dataini)} a ${convertDate(item.datafim)}`}
-                            </Text>
-                            <View className='flex-row justify-between items-center'>
-                                <View>
-                                    <MaterialCommunityIcons name='download-network-outline' color={'#fff'} size={36} />
+                    consumo?.list && (
+                        <FlatList
+                            data={consumo.list}
+                            keyExtractor={(item: ExtratoProps | any) => item.dataini}
+                            ListEmptyComponent={(
+                                <View className='flex-row items-center justify-center gap-2 mt-6'>
+                                    <MaterialCommunityIcons size={32} color={'#fff'} name='download-off' />
+                                    <Text className='text-slate-200 font-normal text-2xl'>Nenhum consumo para o mês selecionado</Text>
                                 </View>
-                                <View>
-                                    <Text className='text-slate-400 font-light'>Download {convertBytes(item.download)}</Text>
-                                    <Text className='text-slate-400 font-light'>Upload {convertBytes(item.upload)}</Text>
-                                </View>
-                                <Text className='text-slate-400 font-bold text-2xl'>{convertBytes(item.total)}</Text>
-                            </View>
-                        </View>
+                            )}
+                            renderItem={({ item, index }) => (
+                                <Animatable.View
+                                    animation="fadeInUp"  
+                                    duration={600}      
+                                    delay={index * 100}
+                                    className='mb-16'
+                                >
+                                    <Text className='text-slate-100 font-bold text-lg'>
+                                        {`Período de ${convertDate(item.dataini)} a ${convertDate(item.datafim)}`}
+                                    </Text>
+                                    <View className='flex-row justify-between items-center'>
+                                        <View>
+                                            <MaterialCommunityIcons name='download-network-outline' color={'#fff'} size={36} />
+                                        </View>
+                                        <View>
+                                            <Text className='text-slate-400 font-light'>Download {convertBytes(item.download)}</Text>
+                                            <Text className='text-slate-400 font-light'>Upload {convertBytes(item.upload)}</Text>
+                                        </View>
+                                        <Text className='text-slate-400 font-bold text-2xl'>{convertBytes(item.total)}</Text>
+                                    </View>
+                                </Animatable.View>
+                            )}
+                        />
                     )}
-                />
-            )}
+            </Animatable.View>
         </View>
     );
 }

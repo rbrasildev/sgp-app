@@ -17,7 +17,6 @@ import Toast from 'react-native-toast-message';
 
 
 export default function invoice() {
-    const [icon, setIcon] = useState('copy-outline')
     const [list, setList] = useState<[] | any>([])
     const [titulo, setTitulo] = useState([])
     const [isLoading, setIsloading] = useState(false)
@@ -28,10 +27,6 @@ export default function invoice() {
 
     const copyToClipboard = async () => {
         await Clipboard.setStringAsync(list.codigo);
-        setIcon('copy')
-        setTimeout(() => {
-            setIcon('copy-outline')
-        }, 2000)
     }
 
     const openBottomSheet = (item: []) => {
@@ -70,7 +65,7 @@ export default function invoice() {
     };
 
     const CardFaturaAbertas = ({ item }: any) => (
-        <Animatable.View animation={'slideInLeft'} className='rounded-2xl my-1 p-2 bg-white shadow'>
+        <Animatable.View animation={'slideInLeft'} className='rounded-2xl my-1 p-2 bg-slate-400'>
             <Collapsible
                 title={item.vencimento}
                 price={item.valorcorrigido}
@@ -98,22 +93,24 @@ export default function invoice() {
 
     if (isLoading) {
         return (
-            <ContentLoader
-                backgroundColor='#ccc'
-                foregroundColor='#ddd'
-                viewBox={`4 4 ${width} ${height}`}
-            >
-                <Rect x="0" y="100" rx="16" ry="16" width="400" height="120" />
-                <Rect x="0" y="230" rx="16" ry="16" width="400" height="120" />
-                <Rect x="0" y="360" rx="16" ry="16" width="400" height="120" />
-                <Rect x="0" y="490" rx="16" ry="16" width="400" height="120" />
-                <Rect x="0" y="620" rx="16" ry="16" width="400" height="120" />
-            </ContentLoader>
+            <View className='bg-slate-900'>
+                <ContentLoader
+                    backgroundColor='#334155'
+                    foregroundColor='#ddd'
+                    viewBox={`4 4 ${width} ${height}`}
+                >
+                    <Rect x="0" y="100" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="230" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="360" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="490" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="620" rx="16" ry="16" width="400" height="120" />
+                </ContentLoader>
+            </View>
         )
     }
 
     const CardFaturasPagas = ({ item }: FaturaProps | any) => (
-        <Animatable.View animation={'slideInRight'} className='rounded-2xl mt-1 p-4 bg-white shadow'>
+        <Animatable.View animation={'slideInRight'} className='rounded-2xl mt-1 p-4 bg-slate-700'>
             <Text className='font-medium text-gray-500 text-xl'>
                 Fatura de {new Date(item.vencimento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
 
@@ -127,8 +124,8 @@ export default function invoice() {
 
             <View className='flex-row gap-1 items-center px-2 justify-between'>
                 <View className='flex-row items-center gap-2'>
-                    <MaterialCommunityIcons name='calendar' size={16} />
-                    <Text>Pago em {new Date(item.data_pagamento).toLocaleDateString('pt-BR')}</Text>
+                    <MaterialCommunityIcons name='calendar' color={'#64748b'} size={16} />
+                    <Text className='text-light text-slate-100'>Pago em {new Date(item.data_pagamento).toLocaleDateString('pt-BR')}</Text>
                 </View>
                 <TouchableOpacity onPress={() => handleOpenLink(item.recibo)} activeOpacity={0.7} className='p-2 bg-green-400 rounded-xl px-6 flex-row items-center gap-2'>
                     <MaterialCommunityIcons name='cloud-download' size={18} color={'#fff'} />
@@ -139,7 +136,7 @@ export default function invoice() {
     )
 
     return (
-        <View className='px-4'>
+        <View className='px-4 bg-slate-900'>
             <Tabs defaultValue="abertas">
                 <TabsList className='rounded-2xl bg-slate-200 my-1'>
                     <TabsTrigger value="abertas" id="abertas" title="Em aberto" />
@@ -182,7 +179,7 @@ export default function invoice() {
                         <TouchableOpacity><MaterialCommunityIcons onPress={() => bottomSheetRef.current?.close()} name='close' size={20} /></TouchableOpacity>
                     </View>
                     <BottomSheetTextInput multiline={true} numberOfLines={3} className='bg-slate-100 rounded-2xl p-3 text-center' value={list.codigo} />
-                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={icon} title='Copiar' />
+                    <Button style={{ marginVertical: 10 }} onPress={() => copyToClipboard()} icon={'copy'} title='Copiar' />
                 </View>
             </BottomSheet>
         </View>
