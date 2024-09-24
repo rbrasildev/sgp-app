@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import typeOcurrence from "@/services/typeOcurrence";
 import Toast from "react-native-toast-message";
 import createTicket from "@/services/createTicket";
+import { router } from "expo-router";
 
 interface OcurrenceProps {
     codigo: number
@@ -73,9 +74,11 @@ export default function Support() {
         handleTypeOcurrence();
     }, [])
 
+
     return (
         <View className="flex-1 p-4 bg-slate-900">
             <KeyboardAvoidingView behavior="position">
+                <Button onPress={() => router.push('/orders')} icon={'list'} className="py-2 flex-row items-center gap-2" title="Meus chamados" />
                 <ScrollView>
                     <View className="justify-center items-center">
                         <View className="rounded-full bg-slate-600 p-4">
@@ -84,7 +87,7 @@ export default function Support() {
                         <Text className="font-bold text-slate-300 text-2xl my-2">Precisa de ajuda?</Text>
                     </View>
 
-                    <View className="bg-slate-600 rounded-2xl">
+                    <View className="bg-slate-100 rounded-2xl">
                         <Picker
                             selectedValue={selectedValue}
                             onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
@@ -96,13 +99,13 @@ export default function Support() {
                     <Input
                         multiline={true}
                         numberOfLines={6}
-                        style={{ textAlignVertical: 'top', backgroundColor:'#475569', borderWidth:0, color:'#ccc' }}
-                        placeholderTextColor={'#cccc'}
+                        style={{ textAlignVertical: 'top', backgroundColor: '#f1f5f9', borderWidth: 0, color: '#333' }}
+                        placeholderTextColor={'#333'}
                         placeholder="Digite sua mensagem"
                         onChangeText={setConteudo}
                         value={conteudo}
                     />
-                    <Button style={{padding:18}} icon="envelope" onPress={handleSaveOcurrange} title="Enviar" />
+                    <Button style={{ padding: 18 }} icon="envelope" onPress={handleSaveOcurrange} title="Enviar" />
                 </ScrollView>
             </KeyboardAvoidingView>
         </View>

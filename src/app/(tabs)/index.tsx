@@ -17,7 +17,7 @@ import * as Animatable from "react-native-animatable";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useRef, useEffect, useState } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 import CardFaturaAbertas from "@/src/components/Faturas/CardFaturaAbertas";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";

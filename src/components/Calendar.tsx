@@ -23,7 +23,6 @@ export const CalendarPicker = () => {
         ));
     };
 
-    // Funções para mudar o ano
     const increaseYear = () => setSelectedYear(prev => prev + 1);
     const decreaseYear = () => setSelectedYear(prev => prev - 1);
 
@@ -40,7 +39,7 @@ export const CalendarPicker = () => {
             </View>
 
             {/* Renderização dos meses */}
-            <View className='flex-row flex-wrap justify-between gap-2 my-4'>
+            <View className='flex-row flex-wrap justify-between gap-2 my-6'>
                 {renderMonths()}
             </View>
         </View>

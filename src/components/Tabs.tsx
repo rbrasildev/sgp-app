@@ -64,7 +64,7 @@ function TabsTrigger({
     >
       <Text
         className={cn(
-          'font-semibold text-muted-foreground',
+          'font-semibold mb-[-2px] text-muted-foreground',
           { 'text-background': activeTab === value },
           textClasses
         )}

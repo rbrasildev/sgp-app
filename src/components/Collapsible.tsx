@@ -53,13 +53,13 @@ export function Collapsible({ children, title, price, status, vencimento }: Fatu
             ) : (
               // Exibe o status "Em aberto" se não estiver atrasada
               <View className='bg-orange-50 items-center border border-orange-300 justify-center p-2 rounded-xl'>
-                <Text className='font-medium text-orange-400'>Em aberto</Text>
+                <Text className='font-medium mb-[-2px] px-2 text-orange-400'>Em aberto</Text>
               </View>
             )
           ) : (
             // Exibe o status padrão se não for "Gerado" ou não houver vencimento
             <View className='bg-green-50 border border-green-200 items-center justify-center p-2 rounded-xl'>
-              <Text className='font-medium text-green-400'>{status}</Text>
+              <Text className='font-medium mb-[-2px] px-2 text-green-400'>{status}</Text>
             </View>
           )}
         </View>

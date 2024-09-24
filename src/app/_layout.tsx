@@ -10,7 +10,7 @@ import {
   Poppins_900Black
 } from '@expo-google-fonts/poppins';
 
-import { router, Slot } from 'expo-router';
+import { router, Slot, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
@@ -42,31 +42,27 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
 
 
   function InitialLayout() {
     const [isLogged, setIsLogged] = useState(false);
     useEffect(() => {
-
       if (isLogged) {
         router.replace("/(tabs)")
       } else {
         router.replace("/login")
       }
     }, [isLogged])
-    return <Slot />
+    return <Slot/>
+  }
+  if (!loaded) {
+    return null;
   }
 
   return (
     <GestureHandlerRootView >
-      <StatusBar backgroundColor='#0f172a' />
-      <View className='bg-gray-100 flex-1'>
-        <InitialLayout />
-        <Toast />
-      </View>
+      <InitialLayout />
+      <Toast />
     </GestureHandlerRootView>
   );
 }

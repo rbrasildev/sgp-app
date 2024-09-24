@@ -65,7 +65,7 @@ export default function invoice() {
     };
 
     const CardFaturaAbertas = ({ item }: any) => (
-        <Animatable.View animation={'slideInLeft'} className='rounded-2xl my-1 p-2 bg-slate-400'>
+        <Animatable.View animation={'slideInLeft'} className='rounded-2xl my-1 p-2 bg-slate-100'>
             <Collapsible
                 title={item.vencimento}
                 price={item.valorcorrigido}
@@ -99,44 +99,44 @@ export default function invoice() {
                     foregroundColor='#ddd'
                     viewBox={`4 4 ${width} ${height}`}
                 >
-                    <Rect x="0" y="100" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="230" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="360" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="490" rx="16" ry="16" width="400" height="120" />
-                    <Rect x="0" y="620" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="70" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="200" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="330" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="460" rx="16" ry="16" width="400" height="120" />
+                    <Rect x="0" y="590" rx="16" ry="16" width="400" height="120" />
                 </ContentLoader>
             </View>
         )
     }
 
     const CardFaturasPagas = ({ item }: FaturaProps | any) => (
-        <Animatable.View animation={'slideInRight'} className='rounded-2xl mt-1 p-4 bg-slate-700'>
+        <Animatable.View animation={'slideInRight'} className='rounded-2xl mt-1 p-4 bg-slate-100'>
             <Text className='font-medium text-gray-500 text-xl'>
                 Fatura de {new Date(item.vencimento).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
 
             </Text>
             <View className='flex-row justify-between my-2 px-2'>
-                <Text className='font-bold text-3xl line-through text-gray-300'>
+                <Text className='font-bold text-3xl line-through text-green-500'>
                     {item.valorcorrigido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     }
                 </Text>
             </View>
 
             <View className='flex-row gap-1 items-center px-2 justify-between'>
-                <View className='flex-row items-center gap-2'>
+                <View className='flex-row justify-center items-center gap-2'>
                     <MaterialCommunityIcons name='calendar' color={'#64748b'} size={16} />
-                    <Text className='text-light text-slate-100'>Pago em {new Date(item.data_pagamento).toLocaleDateString('pt-BR')}</Text>
+                    <Text className='text-light text-slate-500'>Pago em {new Date(item.data_pagamento).toLocaleDateString('pt-BR')}</Text>
                 </View>
                 <TouchableOpacity onPress={() => handleOpenLink(item.recibo)} activeOpacity={0.7} className='p-2 bg-green-400 rounded-xl px-6 flex-row items-center gap-2'>
                     <MaterialCommunityIcons name='cloud-download' size={18} color={'#fff'} />
-                    <Text>Recibo</Text>
+                    <Text className='text-slate-100'>Recibo</Text>
                 </TouchableOpacity>
             </View>
         </Animatable.View >
     )
-
+    
     return (
-        <View className='px-4 bg-slate-900'>
+        <View className='px-4 flex-1 bg-slate-900'>
             <Tabs defaultValue="abertas">
                 <TabsList className='rounded-2xl bg-slate-200 my-1'>
                     <TabsTrigger value="abertas" id="abertas" title="Em aberto" />

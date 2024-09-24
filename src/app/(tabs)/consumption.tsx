@@ -21,6 +21,7 @@ export default function Consumption() {
 
     const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
+
     const renderMonths = () => {
         const currentMonth = new Date().getMonth();
         const currentYear = new Date().getFullYear();
@@ -68,7 +69,7 @@ export default function Consumption() {
 
     const closeWithAnimation = () => {
         if (animatableRef.current) {
-            animatableRef.current.fadeOutUp(100).then(() => { 
+            animatableRef.current.fadeOutUp(100).then(() => {
                 openWithAnimation
                 setIsOpen(false);
             });
@@ -78,10 +79,11 @@ export default function Consumption() {
     const openWithAnimation = () => {
         if (animatableRef.current) {
             animatableRef.current.fadeOutUp(3000).then(() => {
-                setIsOpen(false); 
+                setIsOpen(false);
             });
         }
     };
+
 
     return (
         <View className='px-4 flex-1 bg-slate-900'>
@@ -89,8 +91,8 @@ export default function Consumption() {
             {isOpen && (
                 <Animatable.View
                     ref={animatableRef}
-                    animation="slideInDown" 
-                    duration={300}       
+                    animation="slideInDown"
+                    duration={300}
                     className='justify-center  rounded-3xl mt-1 p-2'>
                     <View className='flex-row justify-between my-6'>
                         <TouchableOpacity onPress={decreaseYear}>
@@ -105,7 +107,7 @@ export default function Consumption() {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View className='justify-between flex-row flex-wrap gap-1 mb-4'>{renderMonths()}</View>
+                    <View className='justify-between flex-row flex-wrap gap-1'>{renderMonths()}</View>
                     <View className='flex-row gap-2 justify-end mt-2'>
                         <TouchableOpacity
                             onPress={() => closeWithAnimation()}
@@ -122,11 +124,11 @@ export default function Consumption() {
             >
                 {consumo && (
                     <View className='border border-slate-500 my-2 p-4 rounded-2xl'>
-                        <Text className='font-light text-xl text-slate-100'>Consumo mês de {months[selectedMonth]}</Text>
-                        <Text className='font-bold text-3xl text-slate-500'>{convertBytes(consumo.total)}</Text>
+                        <Text className='font-light text-xl text-slate-100'>Consumo mês de {new Date(selectedYear, selectedMonth).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}</Text>
+                        <Text className='font-bold text-3xl text-orange-500'>{convertBytes(consumo.total)}</Text>
                     </View>
                 )}
-                {isLoading ? (<View className='flex-1 items-center justify-center mt-4'><ActivityIndicator size={32} color={'#fff'} /></View>) :
+                {isLoading ? (<View className='flex-1 items-center justify-center mt-24'><ActivityIndicator size={32} color={'#fff'} /></View>) :
 
                     consumo?.list && (
                         <FlatList
@@ -140,10 +142,10 @@ export default function Consumption() {
                             )}
                             renderItem={({ item, index }) => (
                                 <Animatable.View
-                                    animation="fadeInUp"  
-                                    duration={600}      
+                                    animation="fadeInUp"
+                                    duration={600}
                                     delay={index * 100}
-                                    className='mb-16'
+                                    className='my-2'
                                 >
                                     <Text className='text-slate-100 font-bold text-lg'>
                                         {`Período de ${convertDate(item.dataini)} a ${convertDate(item.datafim)}`}
